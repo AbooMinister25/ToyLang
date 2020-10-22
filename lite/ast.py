@@ -1,4 +1,7 @@
+from re import L
 from rply.token import BaseBox
+import random
+import sys
 
 
 class BinaryOp(BaseBox):
@@ -54,7 +57,7 @@ class Input():
 
 class Newline():
     def eval(self):
-        return "\n"
+        pass
 
 
 class String():
@@ -63,6 +66,56 @@ class String():
 
     def eval(self):
         return str(self.value)
+
+
+class Bool():
+    def __init__(self, value):
+        if value == "false":
+            self.value = bool(value)
+        if value == "true":
+            self.value = bool(value)
+        else:
+            return ValueError(f"Invalid value {value}")
+
+    def eval(self):
+        return self.value
+
+
+class Null():
+
+    def eval(self):
+        return self
+
+    def to_string(self):
+        return 'null'
+    
+    
+class Comparison():
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+    
+    def eval(self):
+        if self.left.eval() == self.right.eval():
+            print("TRUE")
+        else:
+            print("FALSE")
+
+
+class If(Comparison):
+    def __init__(self):
+        pass
+    def eval(self):
+        pass
+
+
+class RandomInt():
+    def __init__(self, range1, range2):
+        self.range1 = int(range1)
+        self.range2 = int(range2)
+
+    def eval(self):
+        return random.randint(self.range1, self.range2)
 
 
 class Sum():

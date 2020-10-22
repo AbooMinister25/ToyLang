@@ -15,6 +15,9 @@ if __name__ == '__main__':
     for line in lines:
         if line == "\n":
             continue
-        result = parser.parse(lexer.lex(line)).eval()
-        print(result)
+        try:
+            tokens = lexer.lex(line)
+            print(parser.parse(tokens).eval())
+        except Exception as e:
+            print(e)
 

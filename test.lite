@@ -1,3 +1,1 @@
-print("Hello");
-
-input("gimme somethign: ");
+5 == 5

@@ -1,16 +1,17 @@
 from rply import ParserGenerator
 from ast import *
-from errors import *
 
 
 class Parser():
     def __init__(self):
         self.pg = ParserGenerator(
-            ['PRINT', 'INTEGER', 'STRING', "LPAREN", 'RPAREN', 'PLUS',
-                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', 'NEWLINE', "VARIABLE", "EQUALS", "STRING", '$end'],
+            ['PRINT', 'IF','INTEGER', 'STRING', "LPAREN", 'RPAREN', 'PLUS',
+                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', 'NEWLINE', "EQUALS", "STRING", "ELSE", "COMPARISON", "SUM", "RANDOM_INT", "RBRACKET", "LBRACKET", "RBRACKET", '$end'],
             precedence=[
                 ('left', ['PLUS', 'MINUS']),
-                ('left', ['MUL', 'DIV'])
+                ('left', ['MUL', 'DIV']),
+                ('left', ['IF']),
+                ('left', ['COMPARISON'])
             ]
         )
 
@@ -23,10 +24,16 @@ class Parser():
         def input(p):
             return Input(p[2])
 
+        @self.pg.production('expression : IF expression COMPARISON expression')
+        def if_statement(p):
+            If()
+
+
         @self.pg.production('expression : expression PLUS expression')
         @self.pg.production('expression : expression MINUS expression')
         @self.pg.production('expression : expression MUL expression')
         @self.pg.production('expression : expression DIV expression')
+        @self.pg.production('expression : expression COMPARISON expression')
         def expression_binop(p):
             left = p[0]
             right = p[2]
@@ -38,6 +45,9 @@ class Parser():
                 return Mul(left, right)
             elif p[1].gettokentype() == 'DIV':
                 return Div(left, right)
+            elif p[1].gettokentype() == 'COMPARISON':
+                print(left, right)
+                return Comparison(left, right)
             else:
                 raise AssertionError(f'Invalid operator {p[1].gettokentype()}')
 
@@ -48,6 +58,14 @@ class Parser():
         @self.pg.production('expression : STRING')
         def string(p):
             return String(str(p[0].getstr()))
+
+        @self.pg.production('expression : RANDOM_INT LPAREN expression RPAREN')
+        def random_str(p):
+            return random_int(int[p[2]], int[[[3]]])
+
+        @self.pg.production('expression : SUM LPAREN expression RPAREN')
+        def sum(p):
+            return sum(int[p[2]])
 
         @self.pg.error
         def error_handle(token):
