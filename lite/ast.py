@@ -2,6 +2,7 @@ from re import L
 from rply.token import BaseBox
 import random
 import sys
+import pdb
 
 
 class BinaryOp(BaseBox):
@@ -88,25 +89,33 @@ class Null():
 
     def to_string(self):
         return 'null'
-    
-    
+
+
 class Comparison():
     def __init__(self, left, right):
         self.left = left
         self.right = right
-    
+
     def eval(self):
         if self.left.eval() == self.right.eval():
             print("TRUE")
         else:
             print("FALSE")
 
+    def if_eval(self):
+        if self.left.eval() == self.right.eval():
+            print("TRUE")
+        else:
+            print("FALSE")
 
-class If(Comparison):
+
+class If():
     def __init__(self):
-        pass
+        print("INIT")
+
     def eval(self):
-        pass
+        print("Evaling")
+        Comparison().eval()
 
 
 class RandomInt():

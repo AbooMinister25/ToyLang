@@ -10,7 +10,6 @@ class Parser():
             precedence=[
                 ('left', ['PLUS', 'MINUS']),
                 ('left', ['MUL', 'DIV']),
-                ('left', ['IF']),
                 ('left', ['COMPARISON'])
             ]
         )
@@ -47,7 +46,7 @@ class Parser():
                 return Div(left, right)
             elif p[1].gettokentype() == 'COMPARISON':
                 print(left, right)
-                return Comparison(left, right)
+                return Comparison(left, right)  
             else:
                 raise AssertionError(f'Invalid operator {p[1].gettokentype()}')
 
