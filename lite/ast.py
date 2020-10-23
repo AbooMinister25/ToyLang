@@ -109,13 +109,24 @@ class Comparison():
             print("FALSE")
 
 
+class Block():
+    def __init__(self, expression):
+        self.expression = expression
+    
+    def eval(self):
+        return self.expression.eval()
+
 class If():
-    def __init__(self):
-        print("INIT")
+    def __init__(self, left, right, expr):
+        self.left = left
+        self.right = right
+        self.expr = expr
 
     def eval(self):
-        print("Evaling")
-        Comparison().eval()
+        if self.left.eval() == self.right.eval():
+            return self.expr.eval()
+        else:
+            print("FALSE")
 
 
 class RandomInt():

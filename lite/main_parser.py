@@ -22,10 +22,16 @@ class Parser():
         @self.pg.production('expression : INPUT LPAREN expression RPAREN SEMICOLON')
         def input(p):
             return Input(p[2])
+        
+        
+        @self.pg.production('block : expression')
+        def block(p):
+            ...
+        
 
-        @self.pg.production('expression : IF expression COMPARISON expression')
+        @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression RBRACKET')
         def if_statement(p):
-            If()
+            return If(p[1], p[3], p[5])
 
 
         @self.pg.production('expression : expression PLUS expression')
@@ -49,7 +55,7 @@ class Parser():
                 return Comparison(left, right)  
             else:
                 raise AssertionError(f'Invalid operator {p[1].gettokentype()}')
-
+        
         @self.pg.production('expression : INTEGER')
         def integer(p):
             return Integer(int(p[0].getstr()))
@@ -68,7 +74,7 @@ class Parser():
 
         @self.pg.error
         def error_handle(token):
-            raise ValueError(f"Invalid token {token}")
+            raise ValueError(f"Invalid token {token} {token.value}")
 
     def build_parser(self):
         return self.pg.build()

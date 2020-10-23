@@ -11,6 +11,7 @@ class Lexer():
         self.lexer = LexerGenerator()
 
     def _add_tokens(self):
+        self.lexer.add('IF', r"if")
         self.lexer.add('ELSE', r'else')
         self.lexer.add('STRING', '(""".*?""")|(".*?")|(\'.*?\')')
         self.lexer.add("INTEGER", r'\d+')
@@ -27,15 +28,13 @@ class Lexer():
         # self.lexer.add("VARIABLE", "[a-zA-Z_][a-zA-Z0-9_]")
         self.lexer.add("COMPARISON", r"==")
         self.lexer.add("EQUALS", r'=')
-        self.lexer.add("LBRACKE", r"/{")
-        self.lexer.add("RBRACKET", r"/}")
+        self.lexer.add("LBRACKET", r"\{")
+        self.lexer.add("RBRACKET", r"\}")
         self.lexer.add("SUM", r"sum")
         self.lexer.add("RANDOM_INT", r"random_int")
-        self.lexer.add('IF', r"if")
         
 
         self.lexer.ignore('[ \t\r\f\v]+')
-        self.lexer.ignore("\n")
 
     def lex(self, source):
         self._add_tokens()
