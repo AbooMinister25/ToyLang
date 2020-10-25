@@ -9,11 +9,8 @@ lexer = Lexer()
 parser = pg.build_parser()
 
 with open('test.lite', 'r') as f:
-    lines = f.readlines()
+    code = f.read()
 
 if __name__ == '__main__':
-    for line in lines:
-        if line == "\n":
-            continue
-        tokens = lexer.lex(line)
-        print(parser.parse(tokens).eval())
+    tokens = lexer.lex(code)
+    print(parser.parse(tokens).eval())

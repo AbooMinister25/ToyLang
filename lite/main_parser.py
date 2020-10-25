@@ -28,7 +28,7 @@ class Parser():
         def block(p):
             return Block(p[0])
 
-        @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression RBRACKET')
+        @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression NEWLINE RBRACKET')
         def if_statement(p):
             return If(p[1], p[3], p[6])
 
@@ -61,6 +61,10 @@ class Parser():
         @self.pg.production('expression : INTEGER')
         def integer(p):
             return Integer(int(p[0].getstr()))
+        
+        @self.pg.production('expression : NEWLINE')
+        def newline(p):
+            pass
 
         @self.pg.production('expression : STRING')
         def string(p):
