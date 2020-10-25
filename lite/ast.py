@@ -58,7 +58,7 @@ class Input():
 
 class Newline():
     def eval(self):
-        pass
+        return "\n"
 
 
 class String():

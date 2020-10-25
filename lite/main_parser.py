@@ -5,12 +5,13 @@ from ast import *
 class Parser():
     def __init__(self):
         self.pg = ParserGenerator(
-            ['PRINT', 'IF','INTEGER', 'STRING', "LPAREN", 'RPAREN', 'PLUS',
-                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', 'NEWLINE', "EQUALS", "STRING", "ELSE", "COMPARISON", "SUM", "RANDOM_INT", "RBRACKET", "LBRACKET", "RBRACKET", '$end'],
+            ['PRINT', 'IF', 'INTEGER', 'STRING', "LPAREN", 'RPAREN', 'PLUS',
+                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', 'NEWLINE', "EQUALS", "STRING", "ELSE", "COMPARISON", "SUM", "RANDOM_INT", "RBRACKET", "LBRACKET", '$end'],
             precedence=[
                 ('left', ['PLUS', 'MINUS']),
                 ('left', ['MUL', 'DIV']),
-                ('left', ['COMPARISON'])
+                ('left', ['COMPARISON']),
+                ('left', ['IF'])
             ]
         )
 
@@ -23,16 +24,17 @@ class Parser():
         def input(p):
             return Input(p[2])
         
-        
         @self.pg.production('block : expression')
         def block(p):
-            ...
-        
+            return Block(p[0])
 
         @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression RBRACKET')
         def if_statement(p):
-            return If(p[1], p[3], p[5])
+            return If(p[1], p[3], p[6])
 
+        @self.pg.production('expression : IF expression COMPARISON expression LBRACKET expression RBRACKET')
+        def single_line_if_statement(p):
+            return If(p[1], p[3], p[5])
 
         @self.pg.production('expression : expression PLUS expression')
         @self.pg.production('expression : expression MINUS expression')
@@ -52,10 +54,10 @@ class Parser():
                 return Div(left, right)
             elif p[1].gettokentype() == 'COMPARISON':
                 print(left, right)
-                return Comparison(left, right)  
+                return Comparison(left, right)
             else:
                 raise AssertionError(f'Invalid operator {p[1].gettokentype()}')
-        
+
         @self.pg.production('expression : INTEGER')
         def integer(p):
             return Integer(int(p[0].getstr()))
@@ -74,7 +76,7 @@ class Parser():
 
         @self.pg.error
         def error_handle(token):
-            raise ValueError(f"Invalid token {token} {token.value}")
+            raise ValueError(f"Invalid token {token} {token.value} at {token.getsourcepos()}")
 
     def build_parser(self):
         return self.pg.build()

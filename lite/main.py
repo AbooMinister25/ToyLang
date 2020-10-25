@@ -16,7 +16,4 @@ if __name__ == '__main__':
         if line == "\n":
             continue
         tokens = lexer.lex(line)
-        for token in tokens:
-            print(token)
         print(parser.parse(tokens).eval())
-
