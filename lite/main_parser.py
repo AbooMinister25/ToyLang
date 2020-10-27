@@ -6,16 +6,21 @@ class Parser():
     def __init__(self):
         self.pg = ParserGenerator(
             ['PRINT', 'IF', 'INTEGER', 'STRING', "LPAREN", 'RPAREN', 'PLUS',
-                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', 'NEWLINE', "EQUALS", "STRING", "ELSE", "COMPARISON", "SUM", "RANDOM_INT", "RBRACKET", "LBRACKET", '$end'],
+                'MINUS', 'MUL', 'DIV', 'INPUT', 'SEMICOLON', "EQUALS", "STRING", "ELSE", "COMPARISON", "SUM", "RANDOM_INT", "RBRACKET", "LBRACKET",  'IDENTIFIER', '$end', 'NEWLINE'],
             precedence=[
                 ('left', ['PLUS', 'MINUS']),
                 ('left', ['MUL', 'DIV']),
                 ('left', ['COMPARISON']),
-                ('left', ['IF'])
+                ('left', ['IF']),
+                ('left', ['NEWLINE'])
             ]
         )
 
     def parse(self):
+        @self.pg.production('expression : NEWLINE')
+        def newline(p):
+            Newline()
+        
         @self.pg.production('expression : PRINT LPAREN expression RPAREN SEMICOLON')
         def print_obj(p):
             return Print(p[2])
@@ -23,10 +28,6 @@ class Parser():
         @self.pg.production('expression : INPUT LPAREN expression RPAREN SEMICOLON')
         def input(p):
             return Input(p[2])
-        
-        @self.pg.production('block : expression')
-        def block(p):
-            return Block(p[0])
 
         @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression NEWLINE RBRACKET')
         def if_statement(p):
@@ -35,6 +36,10 @@ class Parser():
         @self.pg.production('expression : IF expression COMPARISON expression LBRACKET expression RBRACKET')
         def single_line_if_statement(p):
             return If(p[1], p[3], p[5])
+        
+        @self.pg.production('expression : IDENTIFIER EQUALS expression')
+        def variable(p):
+            return Variable(p[0], p[2])
 
         @self.pg.production('expression : expression PLUS expression')
         @self.pg.production('expression : expression MINUS expression')
@@ -61,10 +66,6 @@ class Parser():
         @self.pg.production('expression : INTEGER')
         def integer(p):
             return Integer(int(p[0].getstr()))
-        
-        @self.pg.production('expression : NEWLINE')
-        def newline(p):
-            pass
 
         @self.pg.production('expression : STRING')
         def string(p):

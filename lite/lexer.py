@@ -24,7 +24,7 @@ class Lexer():
         self.lexer.add('PRINT', r"print")
         self.lexer.add("INPUT", r'input')
         self.lexer.add("SEMICOLON", r'\;')
-        # self.lexer.add("VARIABLE", "[a-zA-Z_][a-zA-Z0-9_]")
+        self.lexer.add("IDENTIFIER", "[a-zA-Z_][a-zA-Z0-9_]*")
         self.lexer.add("COMPARISON", r"==")
         self.lexer.add("EQUALS", r'=')
         self.lexer.add("LBRACKET", r"\{")
@@ -35,7 +35,6 @@ class Lexer():
         
 
         self.lexer.ignore('[ \t\r\f\v]+')
-        self.lexer.ignore('\n')
 
     def lex(self, source):
         self._add_tokens()

@@ -5,6 +5,17 @@ import sys
 import pdb
 
 
+class Environment():
+    def __init__(self):
+        self.variables = {}
+
+    def add_variable(self, name, value):
+        self.variables.update({str(name): str(value)})
+
+    def get_variable(self, variable):
+        return self.variables[variable]
+
+
 class BinaryOp(BaseBox):
     def __init__(self, left, right):
         self.left = left
@@ -56,14 +67,33 @@ class Input():
         return
 
 
-class Newline():
+class Variable():
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def get_name(self):
+        return self.name
+
     def eval(self):
-        return "\n"
+        Environment().add_variable(self.name, self.value)
+        print(Environment.get_variable(self, self.name))
+
+
+class Newline():
+    def __init__(self):
+        pass
+
+    def eval(self):
+        return None
 
 
 class String():
     def __init__(self, value):
         self.value = str(value).strip('"')
+
+    def strip(self, value):
+        self.value = self.value.strip(value)
 
     def eval(self):
         return str(self.value)
@@ -112,35 +142,37 @@ class Comparison():
 class Block():
     def __init__(self, expression):
         self.expression = expression
-    
+
     def eval(self):
         return self.expression.eval()
 
+
 class If():
-    def __init__(self, left, right, expr):
+    def __init__(self, left, right, expr, else_statement=False):
         self.left = left
         self.right = right
         self.expr = expr
+        self.else_statement = else_statement
 
     def eval(self):
         if self.left.eval() == self.right.eval():
             return self.expr.eval()
         else:
-            print("FALSE")
+            if self.else_statement == False:
+                return Bool("false")
+            else:
+                return self.else_statement.eval()
 
 
-class RandomInt():
-    def __init__(self, range1, range2):
-        self.range1 = int(range1)
-        self.range2 = int(range2)
+class Math():
+    def __init__(self):
+        pass
 
-    def eval(self):
-        return random.randint(self.range1, self.range2)
+    def add(self, value):
+        return sum(self.value)
 
+    def random_int(self, range):
+        return random.randint(range)
 
-class Sum():
-    def __init__(self, value):
-        self.value = value
-
-    def eval(self, value):
-        return sum(value)
+    def random_choice(self, values):
+        return random.choice(values)
