@@ -12,15 +12,11 @@ class Parser():
                 ('left', ['MUL', 'DIV']),
                 ('left', ['COMPARISON']),
                 ('left', ['IF']),
-                ('left', ['NEWLINE'])
+                ('left', ['NEWLINE']),
             ]
         )
 
     def parse(self):
-        @self.pg.production('expression : NEWLINE')
-        def newline(p):
-            Newline()
-        
         @self.pg.production('expression : PRINT LPAREN expression RPAREN SEMICOLON')
         def print_obj(p):
             return Print(p[2])
@@ -36,7 +32,11 @@ class Parser():
         @self.pg.production('expression : IF expression COMPARISON expression LBRACKET expression RBRACKET')
         def single_line_if_statement(p):
             return If(p[1], p[3], p[5])
-        
+
+        @self.pg.production('expression : IF expression COMPARISON expression LBRACKET NEWLINE expression NEWLINE RBRACKET NEWLINE ELSE LBRACKET NEWLINE expression NEWLINE RBRACKET')
+        def if_statement(p):
+            return If(p[1], p[3], p[6], p[12])
+
         @self.pg.production('expression : IDENTIFIER EQUALS expression')
         def variable(p):
             return Variable(p[0], p[2])
@@ -81,7 +81,8 @@ class Parser():
 
         @self.pg.error
         def error_handle(token):
-            raise ValueError(f"Invalid token {token} {token.value} at {token.getsourcepos()}")
+            raise ValueError(
+                f"Invalid token {token} {token.value} at {token.getsourcepos()}")
 
     def build_parser(self):
         return self.pg.build()

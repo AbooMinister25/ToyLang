@@ -39,4 +39,5 @@ class Lexer():
     def lex(self, source):
         self._add_tokens()
         lexer = self.lexer.build()
+        self.lexer.ignore("\n")
         return lexer.lex(source)

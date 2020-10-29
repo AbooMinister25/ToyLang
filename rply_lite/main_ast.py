@@ -101,15 +101,15 @@ class String():
 
 class Bool():
     def __init__(self, value):
-        if value == "false":
-            self.value = bool(value)
-        if value == "true":
-            self.value = bool(value)
-        else:
-            return ValueError(f"Invalid value {value}")
+        self.value = value
 
     def eval(self):
-        return self.value
+        if self.value == "false":
+            return self.value
+        if self.value == "true":
+            return self.value
+        else:
+            return ValueError(f"Invalid value {self.value}")
 
 
 class Null():
