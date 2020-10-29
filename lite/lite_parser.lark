@@ -1,0 +1,20 @@
+?value: add
+     | sub
+     | mul
+     | div
+
+expr: print
+    | input
+
+
+add: NUMBER "+" NUMBER
+sub: NUMBER "-" NUMBER
+mul: NUMBER "*" NUMBER
+div: NUMBER "/" NUMBER
+
+print: PRINT "(" "expression" ")"
+input: PRINT "(" "expression" ")"
+
+
+%import common.NUMBER
+%ignore " "

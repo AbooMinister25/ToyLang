@@ -1,25 +1,10 @@
 from lark import Lark, Transformer
 
 
-parser = Lark("""
-start: add
-     | sub
-     | mul
-     | div
-
-add: NUMBER "+" NUMBER
-sub: NUMBER "-" NUMBER
-mul: NUMBER "*" NUMBER
-div: NUMBER "/" NUMBER
+parser = Lark.open('lite\lite_parser.lark', parser="lalr", start="value")
 
 
-%import common.NUMBER
-%ignore " "
-
-    """, start="start")
-
-
-class CalcTransformer(Transformer):
+class LiteTransformer(Transformer):
     def add(self, args):
         return int(args[0]) + int(args[1])
 
@@ -31,10 +16,17 @@ class CalcTransformer(Transformer):
 
     def div(self, args):
         return int(args[0]) / int(args[1])
+    
+    def print(self, args):
+        print(args)
+        
+    def input(self, args):
+        input(args)
 
 
 if __name__ == '__main__':
     while True:
         data = input("> ")
         tree = parser.parse(data)
-        print(CalcTransformer().transform(tree))
+        print(LiteTransformer().transform(tree))
+        
