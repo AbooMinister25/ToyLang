@@ -1,11 +1,11 @@
 from lark import Lark, Transformer
 
 
-parser = Lark.open('lite\lite_parser.lark', parser="lalr", start="value")
+parser = Lark.open('lite\lite_parser.lark', parser="lalr", start="start")
 
 
 class LiteTransformer(Transformer):
-    def add(self, args):
+    def sum(self, args):
         return int(args[0]) + int(args[1])
 
     def sub(self, args):
@@ -17,12 +17,6 @@ class LiteTransformer(Transformer):
     def div(self, args):
         return int(args[0]) / int(args[1])
     
-    def print(self, args):
-        print(args)
-        
-    def input(self, args):
-        input(args)
-
 
 if __name__ == '__main__':
     while True:

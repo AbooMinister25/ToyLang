@@ -1,20 +1,18 @@
-?value: add
-     | sub
-     | mul
-     | div
+start: sum
 
-expr: print
-    | input
+sum: term
+    | sum "+" term  -> add
+    | sum "-" term -> sub
 
 
-add: NUMBER "+" NUMBER
-sub: NUMBER "-" NUMBER
-mul: NUMBER "*" NUMBER
-div: NUMBER "/" NUMBER
+term: item
+    | term "*" item -> mul
+    | term "/" item -> div
 
-print: PRINT "(" "expression" ")" ";"
-input: PRINT "(" "expression" ")" ";"
+?item: NUMBER -> integer
+    | "-" item -> neg
 
 
 %import common.NUMBER
-%ignore " "
+%import common.WS
+%ignore WS
