@@ -12,8 +12,8 @@ sub: NUMBER "-" NUMBER
 mul: NUMBER "*" NUMBER
 div: NUMBER "/" NUMBER
 
-print: PRINT "(" "expression" ")"
-input: PRINT "(" "expression" ")"
+print: PRINT "(" "expression" ")" ";"
+input: PRINT "(" "expression" ")" ";"
 
 
 %import common.NUMBER
