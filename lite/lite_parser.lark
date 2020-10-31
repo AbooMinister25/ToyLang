@@ -14,23 +14,18 @@
       | NAME             -> var
       | "(" sum ")"
 
-?expr: STRING  -> string
-     | PRINT   -> print
-     | "print" "(" STRING ")" ";"
+// ?expr: STRING  -> string
+//      | PRINT   -> print
+//      | "print" "(" STRING ")" ";"
 
 
-PRINT: "print"
-LPAR: "("
-RPAR: ")"
+// PRINT: "print"
+// LPAR: "("
+// RPAR: ")"
 
 %import common.CNAME -> NAME
 %import common.NUMBER
 %import common.WS_INLINE
 
 %ignore WS_INLINE
-
-
-%import common.NUMBER
 %import common.ESCAPED_STRING -> STRING
-%import common.WS
-%ignore WS

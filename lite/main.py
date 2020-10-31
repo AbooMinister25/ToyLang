@@ -17,17 +17,18 @@ class LiteTransformer(Transformer):
         except KeyError:
             raise Exception(f"Variable {name} not found")
     
-    def print(self, value):
-        print(value)
+    # def print(self, value):
+    #     print(value)
         
 
-parser = Lark.open('lite\lite_parser.lark', parser="lalr", transformer=LiteTransformer())
+parser = Lark.open('lite\lite_parser.lark', parser="lalr", start="start")
 
 
 if __name__ == '__main__':
     while True:
         try:
             x = input("> ")
+            tree = parser.parse(x)
+            print(LiteTransformer().transform(tree))
         except EOFError:
             break
-        print(parser.parse(x))
