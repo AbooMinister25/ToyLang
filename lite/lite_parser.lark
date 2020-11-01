@@ -1,27 +1,19 @@
-?start: sum
+?start: expr
+      | statement
+      
 
-?sum: product
-    | sum "+" product   -> add
-    | sum "-" product   -> sub
+?expr: STRING            -> string
+     | NUMBER            -> number
+     | NUMBER "+" NUMBER -> add
+     | NUMBER "-" NUMBER -> sub
+     | NUMBER "*" NUMBER -> mul
+     | NUMBER "/" NUMBER -> div
+     | STRING "+" STRING -> str_add
 
-?product: atom
-    | product "*" atom  -> mul
-    | product "/" atom  -> div
-
-?atom: NUMBER           -> number
-        | "-" atom         -> neg
-        // | NAME             -> var
-        | "(" sum ")"
-
-?expr: STRING
-     | "print" "(" STRING ")"
-
-LPAR: "("
-RPAR: ")"
-PRINT: "print"
+?statement: "print" "(" expr ")" ";" -> print_statement
+          | "input" "(" expr ")" ";" -> input_statement
 
 %import common.ESCAPED_STRING -> STRING 
-// %import common.CNAME -> NAME
 %import common.NUMBER
 %import common.WS_INLINE
 %ignore WS_INLINE
