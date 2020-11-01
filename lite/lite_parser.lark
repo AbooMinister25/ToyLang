@@ -1,5 +1,4 @@
 ?start: sum
-        | NAME "=" sum    -> assign_var
 
 ?sum: product
     | sum "+" product   -> add
@@ -8,22 +7,24 @@
 ?product: atom
     | product "*" atom  -> mul
     | product "/" atom  -> div
+    | product "%" atom  ->
 
 ?atom: NUMBER           -> number
         | "-" atom         -> neg
-        | NAME             -> var
+        // | NAME             -> var
         | "(" sum ")"
 
 ?expr: STRING
-     | "print" "(" STRING ")"
+
+?print: PRINT
+      | print "(" expr ")"
 
 LPAR: "("
 RPAR: ")"
 PRINT: "print"
 
-
-%import common.CNAME -> NAME
-%import common.NUMBER
 %import common.ESCAPED_STRING -> STRING 
+// %import common.CNAME -> NAME
+%import common.NUMBER
 %import common.WS_INLINE
 %ignore WS_INLINE

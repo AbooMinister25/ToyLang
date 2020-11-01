@@ -12,6 +12,9 @@ class LiteTransformer(Transformer):
     def assign_var(self, name, value):
         self.vars[name] = value
         return value
+    
+    def print(self, value):
+        print(value)
 
     def var(self, name):
         try:
@@ -19,8 +22,6 @@ class LiteTransformer(Transformer):
         except KeyError:
             raise Exception(f"Variable {name} not found")
     
-    def print(self, value):
-        print(value)
 
 
 parser = Lark.open('lite\lite_parser.lark', parser="lalr",
