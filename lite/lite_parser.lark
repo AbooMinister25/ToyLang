@@ -20,14 +20,13 @@
 ?bool: TRUE              -> true
      | FALSE             -> false
 
-?condition: expr "==" bool
-          | expr "==" expr
+?condition: expr "==" bool -> bool_comparison
+          | expr "==" expr -> expr_comparison
 
 ?statement: "print" "(" expr ")" ";" -> print_statement
           | "input" "(" expr ")" ";" -> input_statement
 
 ?if : "if" condition "{" statement "}" -> if_statement
-
 
 
 TRUE: "true"

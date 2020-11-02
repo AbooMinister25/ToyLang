@@ -44,6 +44,24 @@ class LiteTransformer(Transformer):
             return self.vars[name]
         except KeyError:
             raise Exception(f"Variable {name} not found")
+        
+    def true(self):
+        return True
+    
+    def false(self):
+        return False
+    
+    def bool_comparison(self, expr, bool):
+        if bool == "true":
+            bool = self.true()
+        elif bool == "false":
+            bool = self.false()
+        if expr == bool:
+            return True
+    
+    def expr_comparison(self, expr1, expr2):
+        if expr1 == expr2:
+            return True
     
     def if_statement(self, condition, eval_expr):
         if condition:
