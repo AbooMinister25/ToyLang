@@ -3,6 +3,7 @@
       | var
       | bool
       | condition
+      | if
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -24,7 +25,9 @@
 
 ?statement: "print" "(" expr ")" ";" -> print_statement
           | "input" "(" expr ")" ";" -> input_statement
-          | "if" condition "{" expr "}" -> if_statement
+
+?if : "if" condition "{" statement "}" -> if_statement
+
 
 
 TRUE: "true"
