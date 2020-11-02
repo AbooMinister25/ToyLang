@@ -1,6 +1,2 @@
-if 5 == 6 {
-    print("TRUE");
-} 
-else {
-    print("FALSE");
-}
+print("HI");
+print("HI");

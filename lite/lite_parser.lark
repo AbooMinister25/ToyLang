@@ -4,6 +4,7 @@
       | bool
       | condition
       | if
+      | _NL* tree
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -14,26 +15,31 @@
      | STRING "+" STRING -> str_add
      | NAME              -> get_var
 
-
-?var: NAME "=" expr      -> assign_var
-
 ?bool: TRUE              -> true
      | FALSE             -> false
+
+?var: NAME "=" expr      -> assign_var
 
 ?condition: expr "==" bool -> bool_comparison
           | expr "==" expr -> expr_comparison
 
-?statement: "print" "(" expr ")" ";" -> print_statement
-          | "input" "(" expr ")" ";" -> input_statement
+?statement: "print" "(" expr ")" ";"  -> print_statement
+          | "input" "(" expr ")" ";"  -> input_statement
 
 ?if : "if" condition "{" statement "}" -> if_statement
+
+tree: _NL [_INDENT tree+ _DEDENT]
 
 
 TRUE: "true"
 FALSE: "false"
 
+_NL: /(\r?\n[\t ]*)+/
+
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER
 %import common.CNAME -> NAME
+%declare _INDENT _DEDENT
 %import common.WS_INLINE
 %ignore WS_INLINE
+%ignore _NL

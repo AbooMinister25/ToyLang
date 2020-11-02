@@ -37,7 +37,6 @@ class LiteTransformer(Transformer):
         if type(value) == str:
             value = value.strip('"')
         self.vars[name] = value
-        return value
     
     def get_var(self, name):
         try:
@@ -65,4 +64,6 @@ class LiteTransformer(Transformer):
     
     def if_statement(self, condition, eval_expr):
         if condition:
-            eval_expr
+            return eval_expr
+        else:
+            return
