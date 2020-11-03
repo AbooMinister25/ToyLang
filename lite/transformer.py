@@ -68,6 +68,3 @@ class LiteTransformer(Transformer):
         else:
             return
     
-    def statement(self, value):
-        ...
-        
