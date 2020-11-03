@@ -67,3 +67,7 @@ class LiteTransformer(Transformer):
             return eval_expr
         else:
             return
+    
+    def statement(self, value):
+        ...
+        

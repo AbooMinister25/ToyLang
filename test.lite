@@ -1,2 +1,6 @@
-input("HI");
-input("hi");
+if 5 == 5 {
+    print("HI");
+}
+if 5 == 5 {
+    print("HI");
+}
