@@ -1,6 +1,5 @@
 ?start: expr
-      | statement*
-      | var
+      | statement* -> statement
       | bool
       | condition
       | if*
@@ -12,6 +11,7 @@
      | NUMBER "*" NUMBER -> mul
      | NUMBER "/" NUMBER -> div
      | STRING "+" STRING -> str_add
+     | NAME              -> get_var
 
 ?bool: TRUE              -> true
      | FALSE             -> false
@@ -21,11 +21,13 @@
 
 ?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
+          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
+          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
+          | NAME "=" expr ";"      -> assign_var
 
-?if : "if" condition "{" statement "}" -> if_statement
-
-?var: NAME "=" expr      -> assign_var
-    | NAME               -> get_var
+?if : "if" condition "{" statement+ "}" -> if_statement
+    | "if" condition "{" expr+ "}" -> if_statement
+    | "if" condition "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
 
 
 TRUE: "true"

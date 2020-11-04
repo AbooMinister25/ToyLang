@@ -27,22 +27,26 @@ class LiteTransformer(Transformer):
 
     def print_statement(self, value):
         value = str(value).strip('"')
-        return value
+        print(value)
 
     def input_statement(self, value):
         value = str(value).strip('"')
         input(value)
-    
-    def assign_var(self, name, value):
-        if type(value) == str:
-            value = value.strip('"')
-        self.vars[name] = value
+        
+    def var_input_statement(self, name, value):
+        name = input(value)
+        self.assign_var(name, value)
     
     def get_var(self, name):
         try:
             return self.vars[name]
         except KeyError:
             raise Exception(f"Variable {name} not found")
+    
+    def assign_var(self, name, value):
+        if type(value) == str:
+            value = value.strip('"')
+        self.vars[name] = value
         
     def true(self):
         return True
@@ -62,9 +66,18 @@ class LiteTransformer(Transformer):
         if expr1 == expr2:
             return True
     
-    def if_statement(self, condition, eval_expr):
+    def if_statement(self, condition, *eval_expr):
         if condition:
             return eval_expr
         else:
             return
     
+    def if_else_statement(self, condition, eval_expr: list, condition2, *eval_expr2):
+        x = self.if_statement(condition, eval_expr)
+        if x == False:
+            if condition2:
+                return eval_expr2
+            else:
+                return
+        else:
+            return x
