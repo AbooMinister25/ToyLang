@@ -1,4 +1,6 @@
 from lark import Lark, Transformer, v_args
+from lite_classes import Environment
+
 
 @v_args(inline=True)    # Affects the signatures of the methods
 class LiteTransformer(Transformer):
@@ -25,59 +27,52 @@ class LiteTransformer(Transformer):
         val2 = val2.strip('"')
         return str(val1) + str(val2)
 
-    def print_statement(self, value):
-        value = str(value).strip('"')
-        print(value)
+    def print_statement(self, value=" "):
+        if type(value) == str:
+            value = value.strip('"')
+        return value
 
     def input_statement(self, value):
         value = str(value).strip('"')
         input(value)
-        
+
     def var_input_statement(self, name, value):
         name = input(value)
         self.assign_var(name, value)
-    
+
     def get_var(self, name):
         try:
             return self.vars[name]
         except KeyError:
             raise Exception(f"Variable {name} not found")
-    
+
     def assign_var(self, name, value):
+        if name == "print":
+            pass
         if type(value) == str:
             value = value.strip('"')
         self.vars[name] = value
-        
+
     def true(self):
         return True
-    
+
     def false(self):
         return False
-    
-    def bool_comparison(self, expr, bool):
-        if bool == "true":
-            bool = self.true()
-        elif bool == "false":
-            bool = self.false()
-        if expr == bool:
-            return True
-    
+
     def expr_comparison(self, expr1, expr2):
         if expr1 == expr2:
             return True
-    
+        else:
+            return False
+
     def if_statement(self, condition, *eval_expr):
         if condition:
-            return eval_expr
+            eval_expr
         else:
             return
     
-    def if_else_statement(self, condition, eval_expr: list, condition2, *eval_expr2):
-        x = self.if_statement(condition, eval_expr)
-        if x == False:
-            if condition2:
-                return eval_expr2
-            else:
-                return
-        else:
-            return x
+    def if_statement(self, *value):
+        return value
+        
+    def statement(self, *value):
+        return value

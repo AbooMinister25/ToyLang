@@ -1,8 +1,8 @@
 ?start: expr
       | statement* -> statement
-      | bool
+      | if* -> if_statements
       | condition
-      | if*
+      | bool
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -19,15 +19,15 @@
 ?condition: expr "==" bool -> bool_comparison
           | expr "==" expr -> expr_comparison
 
+?if : "if" condition "{" statement+ "}" -> if_statement
+    | "if" condition "{" expr+ "}" -> if_statement
+    | "if" condition "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
+
 ?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | NAME "=" expr ";"      -> assign_var
-
-?if : "if" condition "{" statement+ "}" -> if_statement
-    | "if" condition "{" expr+ "}" -> if_statement
-    | "if" condition "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
 
 
 TRUE: "true"
