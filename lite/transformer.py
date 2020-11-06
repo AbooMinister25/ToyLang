@@ -1,6 +1,5 @@
 from lark import Lark, Transformer, v_args
-from lite_classes import Environment
-
+from lite_classes import *
 
 @v_args(inline=True)    # Affects the signatures of the methods
 class LiteTransformer(Transformer):
@@ -27,19 +26,6 @@ class LiteTransformer(Transformer):
         val2 = val2.strip('"')
         return str(val1) + str(val2)
 
-    def print_statement(self, value=" "):
-        if type(value) == str:
-            value = value.strip('"')
-        return value
-
-    def input_statement(self, value):
-        value = str(value).strip('"')
-        input(value)
-
-    def var_input_statement(self, name, value):
-        name = input(value)
-        self.assign_var(name, value)
-
     def get_var(self, name):
         try:
             return self.vars[name]
@@ -59,20 +45,40 @@ class LiteTransformer(Transformer):
     def false(self):
         return False
 
+    def var_input_statement(self, name, value):
+        if type(value) == str:
+            value = value.strip('"')
+        data = input(value)
+        self.assign_var(name, data)
+        return VarInputStatement()
+
+    def print_statement(self, value=" "):
+        if type(value) == str:
+            value = value.strip('"')
+        return Print(value)
+
+    def input_statement(self, value):
+        if type(value) == str:
+            value = value.strip('"')
+        return Input(value)
+    
     def expr_comparison(self, expr1, expr2):
         if expr1 == expr2:
-            return True
+            return print("HI")
         else:
             return False
 
     def if_statement(self, condition, *eval_expr):
-        if condition:
-            eval_expr
+        if condition == True:
+            for expr in eval_expr:
+                return expr
         else:
             return
     
-    def if_statement(self, *value):
-        return value
-        
-    def statement(self, *value):
-        return value
+    def if_statements(self, *value):
+        return 
+    
+    def statement(self, *values):
+        for value in values:
+            value.eval()
+    

@@ -26,7 +26,6 @@
 ?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
-          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | NAME "=" expr ";"      -> assign_var
 
 
