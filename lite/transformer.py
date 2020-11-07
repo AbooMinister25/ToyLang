@@ -1,6 +1,7 @@
 from lark import Lark, Transformer, v_args
 from lite_classes import *
 
+
 @v_args(inline=True)    # Affects the signatures of the methods
 class LiteTransformer(Transformer):
     number = int
@@ -46,22 +47,23 @@ class LiteTransformer(Transformer):
         return False
 
     def var_input_statement(self, name, value):
-        if type(value) == str:
-            value = value.strip('"')
-        data = input(value)
+        data = self.input_statement(value, store_data=True)
         self.assign_var(name, data)
-        return VarInputStatement()
 
     def print_statement(self, value=" "):
         if type(value) == str:
             value = value.strip('"')
         return Print(value)
 
-    def input_statement(self, value):
+    def input_statement(self, value, store_data=False):
         if type(value) == str:
             value = value.strip('"')
-        return Input(value)
-    
+        if store_data == True:
+            data = input(value)
+            return data
+        else:
+            return Input(value)
+
     def expr_comparison(self, expr1, expr2):
         if expr1 == expr2:
             return print("HI")
@@ -74,11 +76,13 @@ class LiteTransformer(Transformer):
                 return expr
         else:
             return
-    
+
     def if_statements(self, *value):
-        return 
-    
+        return
+
     def statement(self, *values):
         for value in values:
-            value.eval()
-    
+            try:
+                value.eval()
+            except:
+                pass

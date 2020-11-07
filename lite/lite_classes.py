@@ -17,8 +17,10 @@ class Environment():
 class Print():
     def __init__(self, value):
         self.value = value
+
     def eval(self):
         return print(self.value)
+
 
 class If():
     def __init__(self, left, right, expr, else_statement=False):
@@ -32,21 +34,28 @@ class If():
             return self.expr
         else:
             return
-        
+
 
 class Input():
     def __init__(self, value):
         self.value = value
-        
+
     def eval(self):
         return input(self.value)
 
-class VarInputStatement():
-    def __init__(self):
-        ...
-    
+
+class AssignVar(Environment):
+    def __init__(self, name, value):
+        self.value = value
+        self.name = name
+
     def eval(self):
-        return
-    
-    
-    
+        self.assign_variable(self.name, self.value)
+
+
+class GetVar(Environment):
+    def __init__(self, name):
+        self.var = name
+
+    def eval(self):
+        self.get_variable(self.var)
