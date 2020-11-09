@@ -82,7 +82,7 @@ class LiteTransformer(Transformer):
 
     def statement(self, *values):
         for value in values:
-            try:
-                value.eval()
-            except:
+            if value == None:
                 pass
+            else:
+                value.eval()

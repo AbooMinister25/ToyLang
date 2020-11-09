@@ -4,15 +4,6 @@
       | condition
       | bool
 
-?expr: STRING            -> string
-     | NUMBER            -> number
-     | NUMBER "+" NUMBER -> add
-     | NUMBER "-" NUMBER -> sub
-     | NUMBER "*" NUMBER -> mul
-     | NUMBER "/" NUMBER -> div
-     | STRING "+" STRING -> str_add
-     | NAME              -> get_var
-
 ?bool: TRUE              -> true
      | FALSE             -> false
 
@@ -27,6 +18,15 @@
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | NAME "=" expr ";"      -> assign_var
+
+?expr: STRING            -> string
+     | NUMBER            -> number
+     | NUMBER "+" NUMBER -> add
+     | NUMBER "-" NUMBER -> sub
+     | NUMBER "*" NUMBER -> mul
+     | NUMBER "/" NUMBER -> div
+     | STRING "+" STRING -> str_add
+     | NAME              -> get_var
 
 
 TRUE: "true"
