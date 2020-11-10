@@ -2,13 +2,8 @@
       | statement* -> statement
       | if* -> if_statements
       | condition
-      | bool
 
-?bool: TRUE              -> true
-     | FALSE             -> false
-
-?condition: expr "==" bool -> bool_comparison
-          | expr "==" expr -> expr_comparison
+?condition: expr "==" expr -> expr_comparison
 
 ?if : "if" condition "{" statement+ "}" -> if_statement
     | "if" condition "{" expr+ "}" -> if_statement
@@ -16,8 +11,8 @@
 
 ?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
-          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | NAME "=" expr ";"      -> assign_var
+          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -39,5 +34,4 @@ FALSE: "false"
 %declare _INDENT _DEDENT
 %import common.WS_INLINE
 %ignore WS_INLINE
-%import common.NEWLINE -> _NL
-%ignore _NL
+

@@ -1,8 +1,9 @@
 from lark import Lark, Transformer, v_args
 from lite_classes import *
+from lark.visitors import Interpreter
 
 
-@v_args(inline=True)    # Affects the signatures of the methods
+@v_args(inline=True) 
 class LiteTransformer(Transformer):
     number = int
     string = str
@@ -27,6 +28,16 @@ class LiteTransformer(Transformer):
         val2 = val2.strip('"')
         return str(val1) + str(val2)
 
+    def if_statement(self, condition, *eval_expr):
+        if condition == True:
+            for expr in eval_expr:
+                return expr
+        else:
+            return
+
+    def if_statements(self, *value):
+        return
+
     def get_var(self, name):
         try:
             return self.vars[name]
@@ -40,22 +51,11 @@ class LiteTransformer(Transformer):
             value = value.strip('"')
         self.vars[name] = value
 
-    def true(self):
-        return True
-
-    def false(self):
-        return False
-
     def var_input_statement(self, name, value):
         data = self.input_statement(value, store_data=True)
         self.assign_var(name, data)
 
-    def print_statement(self, value=" "):
-        if type(value) == str:
-            value = value.strip('"')
-        return Print(value)
-
-    def input_statement(self, value, store_data=False):
+    def input_statement(self, value=" ", store_data=False):
         if type(value) == str:
             value = value.strip('"')
         if store_data == True:
@@ -64,21 +64,16 @@ class LiteTransformer(Transformer):
         else:
             return Input(value)
 
+    def print_statement(self, value=" "):
+        if type(value) == str:
+            value = value.strip('"')
+        return Print(value)
+
     def expr_comparison(self, expr1, expr2):
         if expr1 == expr2:
             return print("HI")
         else:
             return False
-
-    def if_statement(self, condition, *eval_expr):
-        if condition == True:
-            for expr in eval_expr:
-                return expr
-        else:
-            return
-
-    def if_statements(self, *value):
-        return
 
     def statement(self, *values):
         for value in values:
