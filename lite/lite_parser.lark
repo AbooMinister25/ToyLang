@@ -1,4 +1,4 @@
-?start: expr
+?start: expr*
       | statement* -> statement
       | if* -> if_statements
       | condition
@@ -34,4 +34,6 @@ FALSE: "false"
 %declare _INDENT _DEDENT
 %import common.WS_INLINE
 %ignore WS_INLINE
+%import common.NEWLINE -> _NL
+%ignore _NL
 

@@ -12,7 +12,7 @@ class LiteInterpreter(Interpreter):
         self.vars = {}
 
     def add(self, tree):
-        return int(tree.children[0]) + int(tree.children[1])
+        return int(tree.children[0]) + int(tree.children[1]) 
 
     def sub(self, tree):
         return int(tree.children[0]) - int(tree.children[1])
@@ -27,10 +27,14 @@ class LiteInterpreter(Interpreter):
         val1 = tree[0].strip('"')
         val2 = tree[1].strip('"')
         return str(val1) + str(val2)
+    
+    # def print_statement(self, tree):
+    #     print(str(tree.children[0]))
+
 
 
 parser = Lark.open('lite\lite_parser.lark',
-                   parser='lalr', postlex=LiteIndenter())
+                   parser='lalr')
 
 if __name__ == '__main__':
     # while True:
