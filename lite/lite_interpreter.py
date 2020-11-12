@@ -1,18 +1,15 @@
-from lite_classes import *
+from lite_ast import *
 from lark.visitors import Interpreter
 from lark import Lark
 from indenter import LiteIndenter
 
 
 class LiteInterpreter(Interpreter):
-    number = int
-    string = str
-    
     def __init__(self):
         self.vars = {}
 
     def add(self, tree):
-        return int(tree.children[0]) + int(tree.children[1]) 
+        return Add(tree.children[0], tree.children[1])
 
     def sub(self, tree):
         return int(tree.children[0]) - int(tree.children[1])
@@ -28,8 +25,15 @@ class LiteInterpreter(Interpreter):
         val2 = tree[1].strip('"')
         return str(val1) + str(val2)
     
-    # def print_statement(self, tree):
-    #     print(str(tree.children[0]))
+    def print_statement(self, tree):
+        return Print(tree.children).eval()
+
+    def string(self, value):
+        return String(value)
+    
+    def number(self, value):
+        return Integer(value)
+
 
 
 
