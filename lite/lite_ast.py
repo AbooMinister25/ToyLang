@@ -130,7 +130,8 @@ class If():
 
     def eval(self):
         if self.expr1.eval() == self.expr2.eval():
-            return self.eval_expr.eval()
+            for expr in self.eval_expr:
+                expr.eval()
         else:
             if self.else_statement == None:
                 return

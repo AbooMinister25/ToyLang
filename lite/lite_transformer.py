@@ -52,7 +52,7 @@ class LiteTransformer(Transformer):
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)
 
-    def if_statement(self, expr1, expr2, eval_expr):
+    def if_statement(self, expr1, expr2, *eval_expr):
         return If(expr1, expr2, eval_expr)
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
