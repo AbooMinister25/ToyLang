@@ -1,8 +1,11 @@
-from lark import Lark, Transformer, v_args
-from transformer import LiteTransformer
+from lark import Lark
+from lite_ast import *
 from indenter import LiteIndenter
+from lite_transformer import LiteTransformer
 
-parser = Lark.open('lite\lite_parser.lark', parser='lalr')
+
+parser = Lark.open('lite\lite_parser.lark',
+                   parser='lalr', postlex=LiteIndenter())
 
 if __name__ == '__main__':
     # while True:
@@ -11,9 +14,9 @@ if __name__ == '__main__':
     #     except EOFError:
     #         break
     #     tree = parser.parse(x)
-    #     print(LiteInterpreter().visit(tree))
+    #     print(LiteTransformer().transform(tree))
     with open("test.lite", "r") as f:
         lite_code = f.read()
 
     tree = parser.parse(lite_code)
-    print(LiteInterpreter().visit(tree))
+    print(LiteTransformer().transform(tree))

@@ -1,6 +1,5 @@
 from lark import Lark, Transformer, v_args
 from lite_ast import *
-from lark.visitors import Interpreter
 from indenter import LiteIndenter
 
 

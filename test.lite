@@ -3,7 +3,7 @@ print("HI");
 x = input("Enter an operation: ");
 
 if x == "plus" {
-    num1 = input("HI");
-    print("HI");
+    num1 = input("Num1: ");
+    print(num1);
 }
 
