@@ -1,8 +1,8 @@
 start: expr*
-      | statement* -> statement
+      | statement*
 
 
-statement: "print" "(" expr ")" ";"  -> print_statement
+?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" expr ";"      -> assign_var
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement

@@ -56,10 +56,9 @@ class LiteTransformer(Transformer):
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
-
-    # def statement(self, *values):
-    #     for value in values:
-    #         value.eval()
+    
+    def start(self, *statements):
+        return Start(statements)
 
 
 parser = Lark.open('lite\lite_parser.lark',
@@ -77,5 +76,4 @@ if __name__ == '__main__':
         lite_code = f.read()
 
     tree = parser.parse(lite_code)
-    x = LiteTransformer().transform(tree)
-    x.eval()
+    LiteTransformer().transform(tree).eval()

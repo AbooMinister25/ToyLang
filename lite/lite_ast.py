@@ -146,3 +146,12 @@ class AddVar():
 
     def eval(self):
         return self.var1 + self.var2
+
+
+class Start():
+    def __init__(self, *statements):
+        self.statements = statements
+    
+    def eval(self):
+        for statement in self.statements:
+            return statement.eval()
