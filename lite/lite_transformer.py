@@ -30,6 +30,9 @@ class LiteTransformer(Transformer):
     def str_add(self, val1, val2):
         return StringAdd(val1, val2)
 
+    def var_add(self, var1, var2):
+        return AddVar(var1, var2)
+
     def print_statement(self, value):
         return Print(value)
 
@@ -45,9 +48,6 @@ class LiteTransformer(Transformer):
     def get_var(self, name):
         return GetVariable(name)
 
-    def var_add(self, var1, var2):
-        return AddVar(var1, var2)
-
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)
 
@@ -56,7 +56,7 @@ class LiteTransformer(Transformer):
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
-    
+
     def start(self, *statements):
         return Start(statements)
 

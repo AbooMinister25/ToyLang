@@ -100,6 +100,9 @@ class AssignVariable():
     def eval(self):
         environment.assign_variable(self.name, self.value)
 
+    def __repr__(self):
+        return f"Start({self.name}, {self.value})"
+
 
 class GetVariable():
     def __init__(self, name):
@@ -108,17 +111,8 @@ class GetVariable():
     def eval(self):
         return environment.get_variable(self.name).eval()
 
-
-class Comparison():
-    def __init__(self, expr1, expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def eval(self):
-        if self.expr1.eval() == self.expr2.eval():
-            return True
-        else:
-            return
+    def __repr__(self):
+        return f"GetVaroab;e({self.name})"
 
 
 class If():
@@ -138,15 +132,20 @@ class If():
             else:
                 return self.else_statement.eval()
 
+    def __repr__(self):
+        return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
+
 
 class AddVar():
     def __init__(self, var1, var2):
-        self.var1 = environment.get_variable(var1).eval()
-        self.var2 = environment.get_variable(var2).eval()
+        self.var1 = var1
+        self.var2 = var2
 
     def eval(self):
-        return self.var1 + self.var2
-
+        return GetVariable(self.var1).eval() + GetVariable(self.var2).eval()
+    
+    def __repr__(self):
+        return f"AddVar({self.var1}, {self.var2})"
 
 class Start():
     def __init__(self, statements):
@@ -154,4 +153,7 @@ class Start():
     
     def eval(self):
         for statement in self.statements:
-            return statement.eval()
+            statement.eval()
+    
+    def __repr__(self):
+        return f"Start({self.statements})"
