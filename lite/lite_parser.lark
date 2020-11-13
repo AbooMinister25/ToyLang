@@ -9,6 +9,7 @@
           | "if" expr "==" expr "{" statement+ "}" -> if_statement
           | "if" expr "==" expr "{" expr+ "}" -> if_statement
           | "if" expr "==" expr "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
+          | "if" expr "==" expr "{" expr+ "}" "else" "{" statement+ "}" -> if_else_statement
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -18,11 +19,7 @@
      | NUMBER "/" NUMBER -> div
      | STRING "+" STRING -> str_add
      | NAME              -> get_var
-
-
-TRUE: "true"
-FALSE: "false"
-
+     | NAME "+" NAME     -> var_add
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

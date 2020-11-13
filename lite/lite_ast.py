@@ -135,3 +135,11 @@ class If():
                 return
             else:
                 return self.else_statement.eval()
+
+class AddVar():
+    def __init__(self, var1, var2):
+        self.var1 = environment.get_variable(var1).eval()
+        self.var2 = environment.get_variable(var2).eval()
+    
+    def eval(self):
+        return self.var1 + self.var2

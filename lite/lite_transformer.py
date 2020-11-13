@@ -46,6 +46,9 @@ class LiteTransformer(Transformer):
     def get_var(self, name):
         return GetVariable(name)
     
+    def var_add(self, var1, var2):
+        return AddVar(var1, var2)
+
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)
     
