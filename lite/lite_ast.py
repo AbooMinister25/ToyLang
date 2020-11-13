@@ -149,7 +149,7 @@ class AddVar():
 
 
 class Start():
-    def __init__(self, *statements):
+    def __init__(self, statements):
         self.statements = statements
     
     def eval(self):

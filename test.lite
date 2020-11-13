@@ -1,1 +1,10 @@
 print("HI");
+
+x = input("Enter an operation: ");
+
+if x == "plus" {
+    num1 = input("Num1: ");
+    num2 = input("Num2: ");
+    print(num1 + num2);
+}
+
