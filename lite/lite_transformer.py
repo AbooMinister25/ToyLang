@@ -27,7 +27,7 @@ class LiteTransformer(Transformer):
 
     def div(self, val1, val2):
         return Div(val1, val2)
-    
+
     def str_add(self, val1, val2):
         return StringAdd(val1, val2)
 
@@ -36,7 +36,7 @@ class LiteTransformer(Transformer):
 
     def input_statement(self, value):
         return Input(value)
-    
+
     def var_input_statement(self, name, value):
         return AssignVariable(name, Input(value))
 
@@ -45,22 +45,23 @@ class LiteTransformer(Transformer):
 
     def get_var(self, name):
         return GetVariable(name)
-    
+
     def var_add(self, var1, var2):
         return AddVar(var1, var2)
 
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)
-    
+
     def if_statement(self, expr1, expr2, eval_expr):
         return If(expr1, expr2, eval_expr)
-    
+
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
 
     def statement(self, *values):
         for value in values:
             value.eval()
+
 
 parser = Lark.open('lite\lite_parser.lark',
                    parser='lalr', postlex=LiteIndenter())

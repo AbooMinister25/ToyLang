@@ -44,7 +44,7 @@ class StringAdd():
     def __init__(self, val1, val2):
         self.val1 = str(val1)
         self.val2 = str(val2)
-    
+
     def eval(self):
         return self.val1 + self.val2
 
@@ -113,12 +113,13 @@ class Comparison():
     def __init__(self, expr1, expr2):
         self.expr1 = expr1
         self.expr2 = expr2
-    
+
     def eval(self):
         if self.expr1.eval() == self.expr2.eval():
             return True
         else:
             return
+
 
 class If():
     def __init__(self, expr1, expr2, eval_expr, else_statement=None):
@@ -126,7 +127,7 @@ class If():
         self.expr2 = expr2
         self.eval_expr = eval_expr
         self.else_statement = else_statement
-        
+
     def eval(self):
         if self.expr1.eval() == self.expr2.eval():
             return self.eval_expr.eval()
@@ -136,10 +137,11 @@ class If():
             else:
                 return self.else_statement.eval()
 
+
 class AddVar():
     def __init__(self, var1, var2):
         self.var1 = environment.get_variable(var1).eval()
         self.var2 = environment.get_variable(var2).eval()
-    
+
     def eval(self):
         return self.var1 + self.var2

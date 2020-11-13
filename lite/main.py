@@ -14,6 +14,6 @@ if __name__ == '__main__':
     #     print(LiteInterpreter().visit(tree))
     with open("test.lite", "r") as f:
         lite_code = f.read()
-    
+
     tree = parser.parse(lite_code)
     print(LiteInterpreter().visit(tree))
