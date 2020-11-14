@@ -1,6 +1,7 @@
 from lark import Lark, Transformer, v_args
 from lite_ast import *
 from indenter import LiteIndenter
+import os.path
 
 
 @v_args(inline=True)
@@ -32,6 +33,9 @@ class LiteTransformer(Transformer):
 
     def var_add(self, var1, var2):
         return AddVar(var1, var2)
+    
+    def var_sub(self, var1, var2):
+        return SubVar(var1, var2)
 
     def print_statement(self, value):
         return Print(value)
@@ -61,7 +65,7 @@ class LiteTransformer(Transformer):
         return Start(statements)
 
 
-parser = Lark.open('lite\lite_parser.lark',
+parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
                    parser='lalr', postlex=LiteIndenter())
 
 if __name__ == '__main__':

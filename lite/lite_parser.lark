@@ -6,10 +6,11 @@ start: expr*
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" expr ";"      -> assign_var
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
-          | "if" expr "==" expr "{" statement+ "}" -> if_statement
-          | "if" expr "==" expr "{" expr+ "}" -> if_statement
+          | "if" expr "==" expr "{" statement+ "}"* -> if_statement
+          | "if" expr "==" expr "{" expr+ "}"* -> if_statement
           | "if" expr "==" expr "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
           | "if" expr "==" expr "{" expr+ "}" "else" "{" statement+ "}" -> if_else_statement
+          | "if" expr "==" expr "{" expr+ "}" "else if" "{" statement+ "}"* -> if_elif_statement
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -20,6 +21,7 @@ start: expr*
      | STRING "+" STRING -> str_add
      | NAME              -> get_var
      | NAME "+" NAME     -> var_add
+     | NAME "-" NAME     -> var_sub
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

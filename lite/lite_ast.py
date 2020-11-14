@@ -142,7 +142,15 @@ class AddVar():
         self.var2 = var2
 
     def eval(self):
-        return GetVariable(self.var1).eval() + GetVariable(self.var2).eval()
+        if GetVariable(self.var1).eval == String:
+            var1 = str(GetVariable(self.var1).eval())
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var1).eval == String:
+            var2 = str(GetVariable(self.var2).eval())
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 + var2
     
     def __repr__(self):
         return f"AddVar({self.var1}, {self.var2})"
@@ -157,3 +165,22 @@ class Start():
     
     def __repr__(self):
         return f"Start({self.statements})"
+
+class SubVar():
+    def __init__(self, var1, var2):
+        self.var1 = var1
+        self.var2 = var2
+
+    def eval(self):
+        if GetVariable(self.var1).eval == String:
+            var1 = str(GetVariable(self.var1).eval())
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var1).eval == String:
+            var2 = str(GetVariable(self.var2).eval())
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 - var2
+    
+    def __repr__(self):
+        return f"AddVar({self.var1}, {self.var2})"
