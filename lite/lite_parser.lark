@@ -22,6 +22,8 @@ start: expr*
      | NAME              -> get_var
      | NAME "+" NAME     -> var_add
      | NAME "-" NAME     -> var_sub
+     | NAME "*" NAME     -> var_mul
+     | NAME "/" NAME     -> var_div
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

@@ -12,3 +12,13 @@ if x == "minus" {
     num2 = input("Num2: ");
     print(num1 - num2);
 }
+if x == "div" {
+    num1 = input("Num1: ");
+    num2 = input("Num2: ");
+    print(num1 / num2);
+}
+if x == "mul" {
+    num1 = input("Num1: ");
+    num2 = input("Num2: ");
+    print(num1 * num2);
+}

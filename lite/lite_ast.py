@@ -143,11 +143,11 @@ class AddVar():
         self.var2 = var2
 
     def eval(self):
-        if GetVariable(self.var1).eval == String:
+        if GetVariable(self.var1).eval() == String:
             var1 = str(GetVariable(self.var1).eval())
         else:
             var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var1).eval == String:
+        if GetVariable(self.var1).eval() == String:
             var2 = str(GetVariable(self.var2).eval())
         else:
             var2 = int(GetVariable(self.var2).eval())
@@ -173,15 +173,47 @@ class SubVar():
         self.var2 = var2
 
     def eval(self):
-        if GetVariable(self.var1).eval == String:
-            var1 = str(GetVariable(self.var1).eval())
+        if GetVariable(self.var1).eval() == String:
+            return ValueError("String object cannot be subtracted")
         else:
             var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var1).eval == String:
-            var2 = str(GetVariable(self.var2).eval())
+        if GetVariable(self.var2).eval() == String:
+            return ValueError("String object cannot be subtracted")
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 - var2
     
     def __repr__(self):
         return f"AddVar({self.var1}, {self.var2})"
+
+class MulVar():
+    def __init__(self, var1, var2):
+        self.var1 = var1
+        self.var2 = var2
+    
+    def eval(self):
+        if GetVariable(self.var1).eval() == String:
+            return ValueError("String object cannot be multiplied")
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var2).eval() == String:
+            return ValueError("String object cannot be multiplied")
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 * var2
+
+class DivVar():
+    def __init__(self, var1, var2):
+        self.var1 = var1
+        self.var2 = var2
+    
+    def eval(self):
+        if GetVariable(self.var1).eval() == String:
+            return ValueError("String object cannot be divided")
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var2).eval() == String:
+            return ValueError("String object cannot be divided")
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 / var2

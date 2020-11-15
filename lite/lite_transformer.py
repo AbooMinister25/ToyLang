@@ -37,6 +37,12 @@ class LiteTransformer(Transformer):
     def var_sub(self, var1, var2):
         return SubVar(var1, var2)
 
+    def var_mul(self, var1, var2):
+        return MulVar(var1, var2)
+
+    def var_div(self, var1, var2):
+        return DivVar(var1, var2)
+
     def print_statement(self, value):
         return Print(value)
 
