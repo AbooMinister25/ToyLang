@@ -1,5 +1,6 @@
 from lark import Lark, Transformer, v_args
 from lark.indenter import Indenter
+import os.path
 
 class MainIndenter(Indenter):
     NL_type = '_NL'
@@ -9,64 +10,20 @@ class MainIndenter(Indenter):
     DEDENT_type = '_DEDENT'
     tab_len = 8
 
-@v_args(inline=True)
-class MainTransformer(Transformer):
+class Env():
     def __init__(self):
-        ...
+        self.variables = {}
 
-    def number(self, value):
-        return Integer(value)
+    def get_variable(self, name):
+        try:
+            return self.variables[name]
+        except KeyError:
+            raise Exception(f"Variable {name} not found")
 
-    def string(self, value):
-        value = str(value).strip('"')
-        return String(value)
+    def assign_variable(self, name, value):
+        self.variables[name] = value
+environment = Env()
 
-    def div(self, val1, val2):
-        return Div(val1, val2)
-
-    def print_statement(self, value):
-        return Print(value)
-
-    def if_statement(self, expr1, expr2, eval_expr):
-        return If(expr1, expr2, eval_expr)
-
-    def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
-        return If(expr1, expr2, eval_expr, else_statement)
-
-    def if_statements(self, *values):
-        for value in values:
-            value.eval()
-
-    def statement(self, *values):
-        for value in values:
-            value.eval()
-
-grammar = '''
-?start: expr*
-      | statement* -> statement
-      | if* -> if_statements
-
-?if : "if" expr "==" expr "{" statement+ "}" -> if_statement
-    | "if" expr "==" expr "{" expr+ "}" -> if_statement
-    | "if" expr "==" expr "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
-
-?statement: "print" "(" expr ")" ";"  -> print_statement
-          | "input" "(" expr ")" ";"  -> input_statement
-          | NAME "=" expr ";"      -> assign_var
-          | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
-
-?expr: STRING            -> string
-     | NUMBER            -> number
-     | NAME              -> get_var
-%import common.ESCAPED_STRING -> STRING 
-%import common.NUMBER
-%import common.CNAME -> NAME
-%declare _INDENT _DEDENT
-%import common.WS_INLINE
-%ignore WS_INLINE
-%import common.NEWLINE -> _NL
-%ignore _NL
-'''
 class Print():
     def __init__(self, value):
         self.value = value
@@ -95,6 +52,77 @@ class Integer():
     def eval(self):
         return self.value
 
+class AssignVariable():
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+class AddVar():
+    def __init__(self, var1, var2):
+        self.var1 = var1
+        self.var2 = var2
+
+    def eval(self):
+        if GetVariable(self.var1).eval == String:
+            var1 = str(GetVariable(self.var1).eval())
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var1).eval == String:
+            var2 = str(GetVariable(self.var2).eval())
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 + var2
+
+    def __repr__(self):
+        return f"AddVar({self.var1}, {self.var2})"
+
+class Start():
+    def __init__(self, statements):
+        self.statements = statements
+
+    def eval(self):
+        for statement in self.statements:
+            statement.eval()
+
+    def __repr__(self):
+        return f"Start({self.statements})"
+
+class SubVar():
+    def __init__(self, var1, var2):
+        self.var1 = var1
+        self.var2 = var2
+
+    def eval(self):
+        if GetVariable(self.var1).eval == String:
+            var1 = str(GetVariable(self.var1).eval())
+        else:
+            var1 = int(GetVariable(self.var1).eval())
+        if GetVariable(self.var1).eval == String:
+            var2 = str(GetVariable(self.var2).eval())
+        else:
+            var2 = int(GetVariable(self.var2).eval())
+        return var1 - var2
+
+    def __repr__(self):
+        return f"AddVar({self.var1}, {self.var2})"
+
+
+    def eval(self):
+        environment.assign_variable(self.name, self.value)
+
+    def __repr__(self):
+        return f"Start({self.name}, {self.value})"
+
+class GetVariable():
+    def __init__(self, name):
+        self.name = name
+
+    def eval(self):
+        return environment.get_variable(self.name).eval()
+
+    def __repr__(self):
+        return f"GetVaroab;e({self.name})"
+
 class If():
     def __init__(self, expr1, expr2, eval_expr, else_statement=None):
         self.expr1 = expr1
@@ -104,24 +132,15 @@ class If():
 
     def eval(self):
         if self.expr1.eval() == self.expr2.eval():
-            return self.eval_expr.eval()
+            for expr in self.eval_expr:
+                expr.eval()
         else:
             if self.else_statement == None:
                 return
             else:
-                return self.else_statement.eval()
+                for expr in self.else_statement:
+                    expr.eval()
 
-parser = Lark(grammar, parser='lalr', postlex=MainIndenter())
-test_input = '''
-if 5 == 5 {
-    print("True");
-}
-else {
-    print("False");
-}
-print("Done");
-'''
+    def __repr__(self):
+        return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
 
-if __name__ == '__main__':
-    tree = parser.parse(test_input)
-    print(MainTransformer().transform(tree))

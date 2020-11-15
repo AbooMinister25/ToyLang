@@ -80,5 +80,4 @@ if __name__ == '__main__':
         lite_code = f.read()
 
     tree = parser.parse(lite_code)
-    x = LiteTransformer().transform(tree)
-    x.eval()
+    x = LiteTransformer().transform(tree).eval()

@@ -130,7 +130,8 @@ class If():
             if self.else_statement == None:
                 return
             else:
-                return self.else_statement.eval()
+                for expr in self.else_statement:
+                    expr.eval()
 
     def __repr__(self):
         return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"

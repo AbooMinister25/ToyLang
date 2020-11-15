@@ -6,10 +6,9 @@ if x == "plus" {
     num1 = input("Num1: ");
     num2 = input("Num2: ");
     print(num1 + num2);
-}
+} 
 if x == "minus" {
     num1 = input("Num1: ");
     num2 = input("Num2: ");
     print(num1 - num2);
 }
-
