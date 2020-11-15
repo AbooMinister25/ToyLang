@@ -44,7 +44,7 @@ class LiteTransformer(Transformer):
         return Input(value)
 
     def var_input_statement(self, name, value):
-        return AssignVariable(name, Input(value))
+        return AssignVariable(name, value = Input(value))
 
     def assign_var(self, name, value):
         return AssignVariable(name, value)

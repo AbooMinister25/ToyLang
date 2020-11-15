@@ -98,7 +98,7 @@ class AssignVariable():
         self.value = value
 
     def eval(self):
-        environment.assign_variable(self.name, self.value)
+        environment.assign_variable(self.name, self.value.eval())
 
     def __repr__(self):
         return f"Start({self.name}, {self.value})"
@@ -109,7 +109,7 @@ class GetVariable():
         self.name = name
 
     def eval(self):
-        return environment.get_variable(self.name).eval()
+        return environment.get_variable(self.name)
 
     def __repr__(self):
         return f"GetVaroab;e({self.name})"
