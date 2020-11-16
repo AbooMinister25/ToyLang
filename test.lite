@@ -1,4 +1,0 @@
-if 5 == 5 {
-    print("TRUE");
-    print("DONE");
-}

@@ -115,6 +115,15 @@ class GetVariable():
         return f"GetVaroab;e({self.name})"
 
 
+class Block():
+    def __init__(self, exprs):
+        self.exprs = exprs
+
+    def eval(self):
+        for expr in self.exprs:
+            expr.eval()
+
+
 class If():
     def __init__(self, expr1, expr2, eval_expr, else_statement=None):
         self.expr1 = expr1
@@ -124,17 +133,17 @@ class If():
 
     def eval(self):
         if self.expr1.eval() == self.expr2.eval():
-            for expr in self.eval_expr:
-                expr.eval()
+            self.eval_expr.eval()
+
         else:
             if self.else_statement == None:
                 return
             else:
-                for expr in self.else_statement:
-                    expr.eval()
+                self.else_statement.eval()
 
     def __repr__(self):
         return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
+
 
 class AddVar():
     def __init__(self, var1, var2):
@@ -151,20 +160,22 @@ class AddVar():
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 + var2
-    
+
     def __repr__(self):
         return f"AddVar({self.var1}, {self.var2})"
+
 
 class Start():
     def __init__(self, statements):
         self.statements = statements
-    
+
     def eval(self):
         for statement in self.statements:
             statement.eval()
-    
+
     def __repr__(self):
         return f"Start({self.statements})"
+
 
 class SubVar():
     def __init__(self, var1, var2):
@@ -181,15 +192,16 @@ class SubVar():
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 - var2
-    
+
     def __repr__(self):
         return f"AddVar({self.var1}, {self.var2})"
+
 
 class MulVar():
     def __init__(self, var1, var2):
         self.var1 = var1
         self.var2 = var2
-    
+
     def eval(self):
         if GetVariable(self.var1).eval() == String:
             return ValueError("String object cannot be multiplied")
@@ -201,11 +213,12 @@ class MulVar():
             var2 = int(GetVariable(self.var2).eval())
         return var1 * var2
 
+
 class DivVar():
     def __init__(self, var1, var2):
         self.var1 = var1
         self.var2 = var2
-    
+
     def eval(self):
         if GetVariable(self.var1).eval() == String:
             return ValueError("String object cannot be divided")
@@ -216,12 +229,3 @@ class DivVar():
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 / var2
-
-
-class Block():
-    def __init__(self, exprs):
-        self.exprs = exprs
-    
-    def eval(self):
-        for expr in self.exprs:
-            return expr.eval()
