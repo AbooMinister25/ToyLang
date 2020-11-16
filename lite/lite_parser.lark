@@ -10,6 +10,9 @@ start: expr*
           | "if" expr "==" expr  block  -> if_statement
           | "if" expr "==" expr block "else" block -> if_else_statement
           | "while" expr block     -> while_loop
+          | "while" expr "==" expr block  -> conditional_loop
+          | "function" NAME "(" ")" block -> no_argument_function
+          | NAME "(" ")"                  -> no_argument_call_function
 
 
 ?expr: STRING            -> string

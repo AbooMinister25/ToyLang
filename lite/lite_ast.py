@@ -1,6 +1,7 @@
 class Env():
     def __init__(self):
         self.variables = {}
+        self.functions = {}
 
     def get_variable(self, name):
         try:
@@ -10,6 +11,15 @@ class Env():
 
     def assign_variable(self, name, value):
         self.variables[name] = value
+    
+    def define_function(self, name, eval_expr):
+        self.functions[name] = eval_expr
+    
+    def call_function(self, name):
+        try:
+            return self.functions[name].eval()
+        except:
+            raise Exception(f"Function {name} not found")
 
 
 environment = Env()
@@ -248,10 +258,38 @@ class FalseBool():
 
 
 class While():
-    def __init__(self, condition, eval_exprs):
+    def __init__(self, condition, eval_expr):
         self.condition = condition
-        self.eval_exprs = eval_exprs
+        self.eval_expr = eval_expr
     
     def eval(self):
         while self.condition.eval():
-            self.eval_exprs.eval()
+            self.eval_expr.eval()
+
+
+class ConditionalLoop():
+    def __init__(self, expr1, expr2, eval_expr):
+        self.expr1 = expr1
+        self.expr2 = expr2
+        self.eval_expr = eval_expr
+    
+    def eval(self):
+        while self.expr1.eval() == self.expr2.eval():
+            self.eval_expr.eval()
+
+class Function():
+    def __init__(self, name, eval_expr, args=None):
+        self.name = name
+        self.eval_expr = eval_expr
+        self.args = args
+    
+    def eval(self):
+        environment.define_function(self.name, self.eval_expr)
+
+
+class CallFunction():
+    def __init__(self, name):
+        self.name = name
+    
+    def eval(self):
+        environment.call_function(self.name)

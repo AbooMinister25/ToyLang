@@ -75,6 +75,15 @@ class LiteTransformer(Transformer):
 
     def while_loop(self, condition, eval_expr):
         return While(condition, eval_expr)
+    
+    def conditional_loop(self, expr1, expr2, eval_expr):
+        return ConditionalLoop(expr1, expr2, eval_expr)
+    
+    def no_argument_function(self, name, eval_expr):
+        return Function(name, eval_expr)
+
+    def no_argument_call_function(self, name):
+        return CallFunction(name)
 
     def block(self, *exprs):
         return Block(exprs)
