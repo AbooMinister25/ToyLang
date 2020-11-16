@@ -9,7 +9,8 @@ start: expr*
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | "if" expr "==" expr  block  -> if_statement
           | "if" expr "==" expr block "else" block -> if_else_statement
-          | "if" expr "==" expr block "else" block -> if_else_statement
+          | "while" expr block     -> while_loop
+
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -23,6 +24,8 @@ start: expr*
      | NAME "-" NAME     -> var_sub
      | NAME "*" NAME     -> var_mul
      | NAME "/" NAME     -> var_div
+     | "true"            -> true
+     | "false"           -> false
 
 block: "{" expr+ "}"
      | "{" statement+ "}"

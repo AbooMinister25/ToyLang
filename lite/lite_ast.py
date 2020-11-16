@@ -229,3 +229,29 @@ class DivVar():
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 / var2
+
+
+class TrueBool():
+    def __init__(self):
+        self.value = True
+
+    def eval(self):
+        return self.value
+
+
+class FalseBool():
+    def __init__(self):
+        self.value = False
+
+    def eval(self):
+        return self.value
+
+
+class While():
+    def __init__(self, condition, eval_exprs):
+        self.condition = condition
+        self.eval_exprs = eval_exprs
+    
+    def eval(self):
+        while self.condition.eval():
+            self.eval_exprs.eval()

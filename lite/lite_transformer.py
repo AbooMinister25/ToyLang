@@ -42,6 +42,12 @@ class LiteTransformer(Transformer):
 
     def var_div(self, var1, var2):
         return DivVar(var1, var2)
+    
+    def true(self):
+        return TrueBool()
+    
+    def false(self):
+        return FalseBool()
 
     def print_statement(self, value):
         return Print(value)
@@ -66,7 +72,10 @@ class LiteTransformer(Transformer):
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
-    
+
+    def while_loop(self, condition, eval_expr):
+        return While(condition, eval_expr)
+
     def block(self, *exprs):
         return Block(exprs)
 
