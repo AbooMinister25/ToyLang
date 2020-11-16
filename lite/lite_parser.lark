@@ -1,16 +1,17 @@
 start: expr*
       | statement*
+      | block*
 
 
 ?statement: "print" "(" expr ")" ";"  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" expr ";"      -> assign_var
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
-          | "if" expr "==" expr "{" statement+ "}"* -> if_statement
-          | "if" expr "==" expr "{" expr+ "}"* -> if_statement
-          | "if" expr "==" expr "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
-          | "if" expr "==" expr "{" expr+ "}" "else" "{" expr+ "}" -> if_else_statement
-          | "if" expr "==" expr "{" expr+ "}" "else if" "{" statement+ "}"* -> if_elif_statement
+          | "if" expr "==" expr  block  -> if_statement
+          // | "if" expr "==" expr "{" expr+ "}" -> if_statement
+          // | "if" expr "==" expr "{" statement+ "}" "else" "{" statement+ "}" -> if_else_statement
+          // | "if" expr "==" expr "{" expr+ "}" "else" "{" expr+ "}" -> if_else_statement
+          // | "if" expr "==" expr "{" expr+ "}" "else if" "{" statement+ "}"* -> if_elif_statement
 
 ?expr: STRING            -> string
      | NUMBER            -> number
@@ -24,6 +25,9 @@ start: expr*
      | NAME "-" NAME     -> var_sub
      | NAME "*" NAME     -> var_mul
      | NAME "/" NAME     -> var_div
+
+block: "{" expr+ "}"
+     | "{" statement+ "}"
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

@@ -1,24 +1,4 @@
-print("HI");
-
-x = input("Enter an operation: ");
-
-if x == "plus" {
-    num1 = input("Num1: ");
-    num2 = input("Num2: ");
-    print(num1 + num2);
-} 
-if x == "minus" {
-    num1 = input("Num1: ");
-    num2 = input("Num2: ");
-    print(num1 - num2);
-}
-if x == "div" {
-    num1 = input("Num1: ");
-    num2 = input("Num2: ");
-    print(num1 / num2);
-}
-if x == "mul" {
-    num1 = input("Num1: ");
-    num2 = input("Num2: ");
-    print(num1 * num2);
+if 5 == 5 {
+    print("TRUE");
+    print("DONE");
 }

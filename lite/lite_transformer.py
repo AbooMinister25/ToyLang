@@ -66,6 +66,9 @@ class LiteTransformer(Transformer):
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
+    
+    def block(self, *exprs):
+        return Block(exprs)
 
     def start(self, *statements):
         return Start(statements)

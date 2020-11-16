@@ -136,7 +136,6 @@ class If():
     def __repr__(self):
         return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
 
-
 class AddVar():
     def __init__(self, var1, var2):
         self.var1 = var1
@@ -217,3 +216,12 @@ class DivVar():
         else:
             var2 = int(GetVariable(self.var2).eval())
         return var1 / var2
+
+
+class Block():
+    def __init__(self, exprs):
+        self.exprs = exprs
+    
+    def eval(self):
+        for expr in self.exprs:
+            return expr.eval()
