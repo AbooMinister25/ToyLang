@@ -13,10 +13,12 @@ start: expr*
           | "while" expr "==" expr block  -> conditional_loop
           | "function" NAME "(" ")" block -> no_argument_function
           | NAME "(" ")"                  -> no_argument_call_function
+          | "doc" "(" statement ")"       -> doc
 
 
 ?expr: STRING            -> string
      | NUMBER            -> number
+     | "[" [expr ("," expr)*] "]" -> array
      | NUMBER "+" NUMBER -> add
      | NUMBER "-" NUMBER -> sub
      | NUMBER "*" NUMBER -> mul
@@ -29,9 +31,15 @@ start: expr*
      | NAME "/" NAME     -> var_div
      | "true"            -> true
      | "false"           -> false
+     | "sum" "(" expr ")"  -> sum_expr
+     | "random_integer" "(" expr "," expr ")"  -> random_integer
+     | "read_file" "(" expr ")"   -> read_file
+     | "doc" "(" expr ")"            -> doc
+
 
 block: "{" expr+ "}"
      | "{" statement+ "}"
+
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

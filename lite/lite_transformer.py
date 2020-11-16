@@ -15,6 +15,9 @@ class LiteTransformer(Transformer):
     def string(self, value):
         value = str(value).strip('"')
         return String(value)
+    
+    def array(self, *value):
+        return Array(value)
 
     def add(self, val1, val2):
         return Add(val1, val2)
@@ -46,8 +49,20 @@ class LiteTransformer(Transformer):
     def true(self):
         return TrueBool()
     
-    def false(self):
+    def false(self): 
         return FalseBool()
+    
+    def sum_expr(self, value):
+        return Sum(value)
+    
+    def random_integer(self, range1, range2):
+        return RandomInteger(range1, range2)
+    
+    def read_file(self, filename):
+        return ReadFile(filename)
+    
+    def doc(self, value):
+        return Doc(value)
 
     def print_statement(self, value):
         return Print(value)
