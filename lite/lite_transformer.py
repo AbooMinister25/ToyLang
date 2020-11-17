@@ -1,6 +1,5 @@
 from lark import Lark, Transformer, v_args
 from lite_ast import *
-from indenter import LiteIndenter
 import os.path
 
 
@@ -102,13 +101,16 @@ class LiteTransformer(Transformer):
 
     def block(self, *exprs):
         return Block(exprs)
+    
+    def COMMENT(self):
+        pass
 
     def start(self, *statements):
         return Start(statements)
 
 
 parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
-                   parser='lalr', postlex=LiteIndenter())
+                   parser='lalr')
 
 if __name__ == '__main__':
     # while True:

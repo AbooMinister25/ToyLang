@@ -40,7 +40,6 @@ start: expr*
 block: "{" expr+ "}"
      | "{" statement+ "}"
 
-
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER
 %import common.CNAME -> NAME
@@ -49,4 +48,4 @@ block: "{" expr+ "}"
 %ignore WS_INLINE
 %import common.NEWLINE -> _NL
 %ignore _NL
-
+%ignore "//" /[^\n]*/
