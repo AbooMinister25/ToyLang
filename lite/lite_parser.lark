@@ -3,7 +3,7 @@ start: expr*
       | block*
 
 
-?statement: "print" "(" expr ")" ";"  -> print_statement
+?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" expr ";"      -> assign_var
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
@@ -12,8 +12,8 @@ start: expr*
           | "while" expr block     -> while_loop
           | "while" expr "==" expr block  -> conditional_loop
           | "function" NAME "(" ")" block -> no_argument_function
-          | NAME "(" ")"                  -> no_argument_call_function
-          | "doc" "(" statement ")"       -> doc
+          | NAME "(" ")" ";"                  -> no_argument_call_function
+          | "try" block "catch" block     -> try_catch
 
 
 ?expr: STRING            -> string
@@ -39,6 +39,8 @@ start: expr*
 
 block: "{" expr+ "}"
      | "{" statement+ "}"
+
+SEMICOLON: ";"
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

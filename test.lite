@@ -1,0 +1,6 @@
+try {
+    print("HI")
+}
+catch {
+    print("BROKE");
+}

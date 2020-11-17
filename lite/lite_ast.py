@@ -360,3 +360,15 @@ class Doc():
             return self.docstrings[self.value.eval()]
         except:
             return Exception(f"Docstring for {self.value} not found")
+
+
+class TryCatch():
+    def __init__(self, try_block, except_block):
+        self.try_block = try_block
+        self.except_block = except_block
+    
+    def eval(self):
+        try:
+            self.try_block.eval()
+        except:
+            self.except_block.eval()

@@ -1,5 +1,7 @@
 from lark import Lark, Transformer, v_args
 from lite_ast import *
+from lite_errors import *
+from lark import exceptions
 import os.path
 
 
@@ -63,7 +65,7 @@ class LiteTransformer(Transformer):
     def doc(self, value):
         return Doc(value)
 
-    def print_statement(self, value):
+    def print_statement(self, value, semicolon):
         return Print(value)
 
     def input_statement(self, value):
@@ -98,6 +100,9 @@ class LiteTransformer(Transformer):
 
     def no_argument_call_function(self, name):
         return CallFunction(name)
+    
+    def try_catch(self, try_block, catch_block):
+        return TryCatch(try_block, catch_block)
 
     def block(self, *exprs):
         return Block(exprs)
