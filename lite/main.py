@@ -6,7 +6,7 @@ import os
 import sys
 
 
-parser = Lark.open('lite\lite_parser.lark',
+parser = Lark.open(os.path.abspath('lite/lite_parser.lark'),
                    parser='lalr')
 
 def run_lite(filename=None):
