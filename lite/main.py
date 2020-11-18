@@ -4,9 +4,10 @@ from lite_transformer import LiteTransformer
 from lite_errors import *
 import os
 import sys
+from pathlib import Path
 
 
-parser = Lark.open(os.path.abspath('lite/lite_parser.lark'),
+parser = Lark.open(Path('lite/lite_parser.lark').absolute(),
                    parser='lalr')
 
 def run_lite(filename=None):
