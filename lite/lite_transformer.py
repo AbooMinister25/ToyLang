@@ -126,10 +126,6 @@ class LiteTransformer(Transformer):
     def start(self, *statements):
         return Start(statements)
 
-
-parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
-                   parser='lalr', propagate_positions=True)
-
 if __name__ == '__main__':
     # while True:
     #     try:
