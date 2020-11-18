@@ -46,4 +46,4 @@ if x == "div" {
 * other small built in functions, full reference can be found at the documentation
 
 #### Functions are very limited at the moment, Lite does not support arguments and doesn't have return statements yet, all of this is planning to be added in a later release.
-#### You can find more examples and a complete and more detailed reference at the documentation.
+#### You can find more examples and a complete and more detailed reference at the documentation. (Coming Soon)

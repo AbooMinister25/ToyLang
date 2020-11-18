@@ -1,23 +1,55 @@
-from lark import Lark
+from lark import Lark, exceptions
 from lite_ast import *
 from lite_transformer import LiteTransformer
+from lite_errors import *
 import os
+import sys
 
 
 parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
                    parser='lalr')
 
-if __name__ == '__main__':
-    # while True:
-    #     try:
-    #         x = input("> ")
-    #     except EOFError:
-    #         break
-    #     tree = parser.parse(x)
-    #     print(LiteTransformer().transform(tree))
-    with open("test.lite", "r") as f:
-        lite_code = f.read()
+def run(filename=None):
+    if filename == None:
+        while True:
+            lite_code = input("> ")
+            try:
+                tree = parser.parse(lite_code)
+            except exceptions.UnexpectedToken as e:
+                MissingToken(e.expected, e.line, e.column, e.get_context(lite_code))
+                sys.exit()
+            else:
+                InvalidSyntax()
+            try:
+                x = LiteTransformer().transform(tree).eval()
+            except KeyError as e:
+                InvalidName(e.args)
+            except IndexError as e:
+                InvalidIndex(e.args)
+            except TypeError as e:
+                InvalidType(e.args)
+            else:
+                InvalidSyntax()
+    else:
+        with open(filename, "r") as f:
+            lite_code = f.read()
+        try:
+            tree = parser.parse(lite_code)
+        except exceptions.UnexpectedToken as e:
+            MissingToken(e.expected, e.line, e.column, e.get_context(lite_code))
+            sys.exit()
+        else:
+            InvalidSyntax()
+        try:
+            x = LiteTransformer().transform(tree).eval()
+        except KeyError as e:
+            InvalidName(e.args)
+        except IndexError as e:
+            InvalidIndex(e.args)
+        except TypeError as e:
+            InvalidType(e.args)
+        else:
+            InvalidSyntax()
 
-    tree = parser.parse(lite_code)
-    x = LiteTransformer().transform(tree)
-    x.eval()
+if __name__ == '__main__':
+    run()
