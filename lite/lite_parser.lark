@@ -12,8 +12,9 @@ start: expr*
           | "while" expr block     -> while_loop
           | "while" expr "==" expr block  -> conditional_loop
           | "function" NAME "(" ")" block -> no_argument_function
-          | NAME "(" ")" ";"                  -> no_argument_call_function
-          | "try" block "catch" block     -> try_catch
+          | NAME "(" ")" ";"              -> no_argument_call_function
+          | "exit" "(" ")" ";"            -> exit_statement
+          | "exit" "(" expr ")" ";"       -> exit_statement
 
 
 ?expr: STRING            -> string
@@ -35,6 +36,10 @@ start: expr*
      | "random_integer" "(" expr "," expr ")"  -> random_integer
      | "read_file" "(" expr ")"   -> read_file
      | "doc" "(" expr ")"            -> doc
+     | NAME "[" NUMBER "]"          -> array_index
+     | "mean" "(" expr ")"          -> mean
+     | "square_root" "(" NUMBER ")"   -> square_root
+     | "path_exists" "(" expr ")"     -> path_exists
 
 
 block: "{" expr+ "}"

@@ -1,4 +1,8 @@
 import random
+import statistics
+import os
+import math
+import sys
 
 
 class Env():
@@ -7,10 +11,7 @@ class Env():
         self.functions = {}
 
     def get_variable(self, name):
-        try:
-            return self.variables[name]
-        except KeyError:
-            raise Exception(f"Variable {name} not found")
+        return self.variables[name]
 
     def assign_variable(self, name, value):
         self.variables[name] = value
@@ -23,6 +24,9 @@ class Env():
             return self.functions[name].eval()
         except:
             raise Exception(f"Function {name} not found")
+    
+    def get_array_index(self, name, index):
+        return self.variables[name][int(index)]
 
 
 environment = Env()
@@ -129,14 +133,25 @@ class AssignVariable():
 
 
 class GetVariable():
-    def __init__(self, name):
+    def __init__(self, name, array=False):
         self.name = name
+        self.array = array
 
     def eval(self):
         return environment.get_variable(self.name)
+            
 
     def __repr__(self):
         return f"GetVaroab;e({self.name})"
+
+
+class GetArrayIndex():
+    def __init__(self, name, index):
+        self.name = name
+        self.index = index
+    
+    def eval(self):
+        return environment.get_array_index(self.name, self.index)
 
 
 class Block():
@@ -335,6 +350,7 @@ class ReadFile():
         data = open(self.filename.eval(), "r")
         return data.readlines()
 
+
 class Doc():
     def __init__(self, value):
         self.value = value
@@ -350,11 +366,14 @@ class Doc():
             "function": "function: statement for defining a function",
             "true": "true: boolean data type",
             "false": "false: boolean data type",
-            "sum": "sum: expression for getting the combined sum for all the values in an array", 
+            "sum": "sum: expression for getting the combined sum for all the values in an array",
             "random_integer": "random_integer: expression for getting a random integer from between two given ranges",
-            "read_file": "expression: expression for reading the data from a file"
+            "read_file": "expression: expression for reading the data from a file",
+            "mean": "expression: expression for returning the mean of a given data set",
+            "square_root": "expression for returning the square_root of an integer",
+            "exit": "statement: statement for exiting the program, can have an optional exit message"
         }
-    
+
     def eval(self):
         try:
             return self.docstrings[self.value.eval()]
@@ -362,13 +381,33 @@ class Doc():
             return Exception(f"Docstring for {self.value} not found")
 
 
-class TryCatch():
-    def __init__(self, try_block, except_block):
-        self.try_block = try_block
-        self.except_block = except_block
+class Mean():
+    def __init__(self, data):
+        self.data = data
     
     def eval(self):
-        try:
-            self.try_block.eval()
-        except:
-            self.except_block.eval()
+        return statistics.mean(self.data.eval())
+
+
+class SquareRoot():
+    def __init__(self, data):
+        self.data = data
+    
+    def eval(self):
+        return math.sqrt(self.data.eval())
+
+
+class Exit():
+    def __init__(self, message):
+        self.message = message
+    
+    def eval(self):
+        sys.exit(self.message.eval())
+
+
+class PathExists():
+    def __init__(self, path):
+        self.path = path
+    
+    def eval(self):
+        return os.path.exists(self.path.eval())

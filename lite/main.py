@@ -1,11 +1,11 @@
 from lark import Lark
 from lite_ast import *
-from indenter import LiteIndenter
 from lite_transformer import LiteTransformer
+import os
 
 
 parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
-                   parser='lalr', postlex=LiteIndenter())
+                   parser='lalr')
 
 if __name__ == '__main__':
     # while True:
