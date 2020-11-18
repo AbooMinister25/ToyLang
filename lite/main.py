@@ -9,7 +9,7 @@ import sys
 parser = Lark.open(os.path.join('lite', 'lite_parser.lark'),
                    parser='lalr')
 
-def run(filename=None):
+def run_lite(filename=None):
     if filename == None:
         while True:
             lite_code = input("> ")
@@ -52,4 +52,4 @@ def run(filename=None):
             InvalidSyntax()
 
 if __name__ == '__main__':
-    run()
+    run_lite()
