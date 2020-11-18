@@ -4,11 +4,16 @@ from lite_transformer import LiteTransformer
 from lite_errors import *
 import os
 import sys
-from pathlib import Path
 
 
-parser = Lark.open(Path('lite/lite_parser.lark').absolute(),
+budled_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
+path = os.path.abspath(os.path.join(budled_dir, 'lite_parser.lark'))
+
+try:
+    parser = Lark.open(path,
                    parser='lalr')
+except:
+    parser = Lark.open('lite/lite_parser.lark', parser='lalr')
 
 def run_lite(filename=None):
     if filename == None:
