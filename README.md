@@ -50,5 +50,10 @@ You can find more examples and a complete and more detailed reference at the doc
 
 # Installation
 The installation for Lite is pretty straightforward, just follow the steps below.
-* The following is the current stable release of lite, download it. [Lite 1.0.0](lite.exe)
-* Once lite has been installed, you can run it by calling its full path, like the following
+* The following is the current stable release of lite, download it. [Lite 1.0.0](https://github.com/AbooMinister25/Lite)
+* Once lite has been installed, you can run it by calling its full path, type in the following command (formatted) to run `Lite: C:\Users\{user}\{Where the folder is located}\Lite-Master\Lite-Master\lite run` . Warning, this script may not work, if it gives an error, which it might, instead run the following: `C:\Users\{user}\{Where the folder is located}\Lite-Master\Lite-Master\lite\lite.py run`
+
+And there you go! Lite is up and running, if something went wrong, or if your having any problems, please contact me, my contact info will be at the bottom.
+
+# Contact
+If your experiencing any bugs or problems, or have any questions, feel free to open an issue or email me at my email, aboominister@gmail.com
