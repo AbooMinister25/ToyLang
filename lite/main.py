@@ -8,7 +8,7 @@ import sys
 
 def get_correct_path(relative_path):
     try:
-        base_path = sys.__MAIPASS
+        base_path = sys.__MEIPASS
     except:
         base_path = os.path.abspath(".")
     
@@ -18,7 +18,7 @@ try:
     parser = Lark.open(get_correct_path("lite\lite_parser.lark"),
                    parser='lalr')
 except:
-    parser = Lark.open('lite\lite_parser.lark', parser='lalr')
+    parser = Lark.open(r'lite\lite_parser.lark', parser='lalr')
 
 def run_lite(filename=None):
     if filename == None:
