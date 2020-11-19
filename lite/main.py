@@ -14,7 +14,7 @@ def get_correct_path(relative_path):
     
     return os.path.join(base_path, relative_path)
 
-parser = Lark.open(get_correct_path(r"lite\lite_parser.lark"),
+parser = Lark.open("lite_parser.lark", rel_to = __file__,
                    parser='lalr')
 
 def run_lite(filename=None):
