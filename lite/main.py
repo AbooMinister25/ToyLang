@@ -6,14 +6,19 @@ import os
 import sys
 
 
-budled_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-path = os.path.abspath(os.path.join(budled_dir, 'lite_parser.lark'))
+def get_correct_path(relative_path):
+    try:
+        base_path = sys.__MAIPASS
+    except:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 try:
-    parser = Lark.open(path,
+    parser = Lark.open(get_correct_path("lite\lite_parser.lark"),
                    parser='lalr')
 except:
-    parser = Lark.open('lite/lite_parser.lark', parser='lalr')
+    parser = Lark.open('lite\lite_parser.lark', parser='lalr')
 
 def run_lite(filename=None):
     if filename == None:
