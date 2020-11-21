@@ -1,6 +1,7 @@
 start: expr*
       | statement*
       | block*
+      | args*
 
 
 ?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
@@ -9,12 +10,16 @@ start: expr*
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
           | "if" expr "==" expr  block  -> if_statement
           | "if" expr "==" expr block "else" block -> if_else_statement
+          | "if" expr "==" expr "or" expr "==" expr block -> or_if_statement
           | "while" expr block     -> while_loop
           | "while" expr "==" expr block  -> conditional_loop
+          | "for" NAME "in" expr          -> for_loop
           | "function" NAME "(" ")" block -> no_argument_function
+          | "function" NAME "(" args ")" block   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
+          | "wait" "(" expr ")" ";"       -> wait
 
 
 ?expr: STRING            -> string
@@ -40,10 +45,12 @@ start: expr*
      | "mean" "(" expr ")"          -> mean
      | "square_root" "(" NUMBER ")"   -> square_root
      | "path_exists" "(" expr ")"     -> path_exists
-
+     | "range" "(" expr ")"           -> range
 
 block: "{" expr+ "}"
      | "{" statement+ "}"
+
+args: NAME+
 
 SEMICOLON: ";"
 

@@ -56,3 +56,13 @@ InvalidSyntaxError:
     
     (Basically, your code is invalid, and is raising this error, try debugging it, and finding whats wrong)
 '''
+
+class UnexpectedCharacter():
+    def __init__(self, data, column, line_number, context):
+        error = f"""
+UnexpectedCharacterError:
+    Invalid character {data} given at line {line_number} column {column}
+        {context}
+    
+    (Basically, your supplied an unknow character, which is raising this error, try looking through and debugging it)
+"""

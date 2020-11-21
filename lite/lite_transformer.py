@@ -104,6 +104,9 @@ class LiteTransformer(Transformer):
 
     def if_else_statement(self, expr1, expr2, eval_expr, else_statement):
         return If(expr1, expr2, eval_expr, else_statement)
+    
+    def or_if_statement(self, expr1, expr2, expr3, expr4, eval_expr):
+        return IfOr(expr1, expr2, expr3, expr4, eval_expr)
 
     def while_loop(self, condition, eval_expr):
         return While(condition, eval_expr)
@@ -116,9 +119,15 @@ class LiteTransformer(Transformer):
 
     def no_argument_call_function(self, name):
         return CallFunction(name)
+    
+    def wait(self, time):
+        return Wait(time)
 
     def block(self, *exprs):
         return Block(exprs)
+    
+    def args(self, *arguments):
+        return Args(arguments)
 
     def COMMENT(self):
         pass

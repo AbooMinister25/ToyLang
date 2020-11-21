@@ -60,4 +60,4 @@ def run_lite(filename=None):
             InvalidSyntax()
 
 if __name__ == '__main__':
-    run_lite()
+    run_lite(filename="test.lite")

@@ -3,12 +3,15 @@ import statistics
 import os
 import math
 import sys
+import time
 
 
 class Env():
     def __init__(self):
         self.variables = {}
         self.functions = {}
+        self.arg_functions = {}
+        self.args = {}
 
     def get_variable(self, name):
         return self.variables[name]
@@ -19,12 +22,24 @@ class Env():
     def define_function(self, name, eval_expr):
         self.functions[name] = eval_expr
 
+    def assign_args(self, name, args):
+        self.args[name] = args
+
+    def define_args_function(self, name, eval_expr):
+        self.arg_functions[name] = eval_expr
+
     def call_function(self, name):
         try:
             return self.functions[name].eval()
         except:
             raise Exception(f"Function {name} not found")
-    
+
+    def call_args_function(self, name):
+        try:
+            return self.args_functions[name].eval()(self.args[name])
+        except:
+            raise Exception(f"Function {name} not found")
+
     def get_array_index(self, name, index):
         return self.variables[name][int(index)]
 
@@ -139,7 +154,6 @@ class GetVariable():
 
     def eval(self):
         return environment.get_variable(self.name)
-            
 
     def __repr__(self):
         return f"GetVaroab;e({self.name})"
@@ -149,7 +163,7 @@ class GetArrayIndex():
     def __init__(self, name, index):
         self.name = name
         self.index = index
-    
+
     def eval(self):
         return environment.get_array_index(self.name, self.index)
 
@@ -182,6 +196,26 @@ class If():
 
     def __repr__(self):
         return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
+
+
+class IfOr():
+    def __init__(self, expr1, expr2, expr3, expr4, eval_expr, else_statement=None):
+        self.expr1 = expr1
+        self.expr2 = expr2
+        self.expr3 = expr3
+        self.expr4 = expr4
+        self.else_statement = else_statement
+        self.eval_expr = eval_expr
+
+    def eval(self):
+        if self.expr1.eval() == self.expr2.eval() or self.expr3.eval() == self.expr4.eval():
+            self.eval_expr.eval()
+
+        else:
+            if self.else_statement == None:
+                return
+            else:
+                self.else_statement.eval()
 
 
 class AddVar():
@@ -307,6 +341,38 @@ class ConditionalLoop():
             self.eval_expr.eval()
 
 
+class Args():
+    def __init__(self, args):
+        self.args = []
+        self.locals = {}
+        for arg in args:
+            self.args.append(arg)
+
+    def eval(self):
+        eval_args = []
+        for arg in self.args:
+            eval_args.append(arg.eval())
+
+        return eval_args
+
+    def assign_args(self, name, value):
+        self.locals[name] = value
+
+    def get_args(self, name):
+        return self.locals[name]
+
+
+class ArgumentFunction():
+    def __init__(self, name, args, eval_expr):
+        self.name = name
+        self.eval_expr = eval_expr
+        self.args = args
+        self.vars = {}
+
+    def eval(self):
+        ...
+
+
 class Function():
     def __init__(self, name, eval_expr, args=None):
         self.name = name
@@ -384,7 +450,7 @@ class Doc():
 class Mean():
     def __init__(self, data):
         self.data = data
-    
+
     def eval(self):
         return statistics.mean(self.data.eval())
 
@@ -392,7 +458,7 @@ class Mean():
 class SquareRoot():
     def __init__(self, data):
         self.data = data
-    
+
     def eval(self):
         return math.sqrt(self.data.eval())
 
@@ -400,7 +466,7 @@ class SquareRoot():
 class Exit():
     def __init__(self, message):
         self.message = message
-    
+
     def eval(self):
         sys.exit(self.message.eval())
 
@@ -408,6 +474,14 @@ class Exit():
 class PathExists():
     def __init__(self, path):
         self.path = path
-    
+
     def eval(self):
         return os.path.exists(self.path.eval())
+
+
+class Wait():
+    def __init__(self, time):
+        self.time = time
+
+    def eval(self):
+        return time.sleep(self.time.eval())
