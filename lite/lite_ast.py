@@ -36,7 +36,7 @@ class Env():
 
     def call_args_function(self, name, args):
         try:
-            return self.args_functions[name].eval()(args)
+            return self.arg_functions[name](args)
         except:
             raise Exception(f"Function {name} not found")
 
@@ -367,7 +367,7 @@ class ArgumentFunction():
 
     def eval(self):
         environment.assign_args(self.name, self.args.eval())
-        def myfunc():
+        def myfunc(*args):
             self.eval_expr.eval()
         environment.define_args_function(self.name, myfunc)
 
@@ -378,7 +378,7 @@ class CallArgumentFunction():
         self.args = args
     
     def eval(self):
-        environment.call_args_function(self.name, self.args.eval())
+        environment.call_args_function(self.name, self.args)
 
 
 class Function():
