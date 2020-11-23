@@ -120,8 +120,11 @@ class LiteTransformer(Transformer):
     def no_argument_call_function(self, name):
         return CallFunction(name)
     
-    def argument_function(name, args, eval_expr):
+    def argument_function(self, name, args, eval_expr):
         return ArgumentFunction(name, args, eval_expr)
+    
+    def argument_call_function(self, name, args):
+        return CallArgumentFunction(name, args)
     
     def wait(self, time):
         return Wait(time)
@@ -131,6 +134,9 @@ class LiteTransformer(Transformer):
     
     def args(self, *arguments):
         return Args(arguments)
+    
+    def input_args(self, *arguments):
+        return InputArgs(arguments)
 
     def COMMENT(self):
         pass

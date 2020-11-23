@@ -59,5 +59,20 @@ def run_lite(filename=None):
         else:
             InvalidSyntax()
 
+def run_with_python_traceback(filename=None):
+    if filename == None:
+        while True:
+            lite_code = input("> ")
+            tree = parser.parse(lite_code)
+            x = LiteTransformer().transform(tree).eval()
+    else:
+        with open(filename, "r") as f:
+            lite_code = f.read()
+            tree = parser.parse(lite_code)
+            x = LiteTransformer().transform(tree).eval()
+        
+        
+
 if __name__ == '__main__':
-    run_lite(filename="test.lite")
+    run_with_python_traceback('test.lite')
+

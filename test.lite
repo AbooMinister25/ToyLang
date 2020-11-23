@@ -1,3 +1,5 @@
 function myfunction(val1) {
     print("HI");
 }
+
+myfunction(5);

@@ -2,6 +2,7 @@ start: expr*
       | statement*
       | block*
       | args*
+      | input_args*
 
 
 ?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
@@ -17,6 +18,7 @@ start: expr*
           | "function" NAME "(" ")" block -> no_argument_function
           | "function" NAME args block   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
+          | NAME input_args ";"   -> argument_call_function
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
           | "wait" "(" expr ")" ";"       -> wait
@@ -51,6 +53,8 @@ block: "{" expr+ "}"
      | "{" statement+ "}"
 
 args: "(" NAME+ ")"
+
+input_args: "(" expr+ ")"
 
 SEMICOLON: ";"
 

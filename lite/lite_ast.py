@@ -34,9 +34,9 @@ class Env():
         except:
             raise Exception(f"Function {name} not found")
 
-    def call_args_function(self, name):
+    def call_args_function(self, name, args):
         try:
-            return self.args_functions[name].eval()(self.args[name])
+            return self.args_functions[name].eval()(args)
         except:
             raise Exception(f"Function {name} not found")
 
@@ -343,17 +343,19 @@ class ConditionalLoop():
 
 class Args():
     def __init__(self, args):
-        self.args = []
+        self.args = args
         self.locals = {}
-        for arg in args:
-            self.args.append(arg)
 
     def eval(self):
-        eval_args = []
-        for arg in self.args:
-            eval_args.append(arg.eval())
+        return self.args
 
-        return eval_args
+
+class InputArgs():
+    def __init__(self, args):
+        self.args = args
+    
+    def eval(self):
+        return self.args.eval()
 
 
 class ArgumentFunction():
@@ -364,19 +366,19 @@ class ArgumentFunction():
         self.vars = {}
 
     def eval(self):
-        environment.assign_args(self.args.eval())
+        environment.assign_args(self.name, self.args.eval())
         def myfunc():
             self.eval_expr.eval()
-        environment.assign_args_function(self.name.eval(), myfunc)
+        environment.define_args_function(self.name, myfunc)
 
 
-class CallArgumenFunction():
+class CallArgumentFunction():
     def __init__(self, name, args):
         self.name = name
         self.args = args
     
     def eval(self):
-        ...
+        environment.call_args_function(self.name, self.args.eval())
 
 
 class Function():
