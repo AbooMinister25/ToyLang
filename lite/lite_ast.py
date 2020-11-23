@@ -355,12 +355,6 @@ class Args():
 
         return eval_args
 
-    def assign_args(self, name, value):
-        self.locals[name] = value
-
-    def get_args(self, name):
-        return self.locals[name]
-
 
 class ArgumentFunction():
     def __init__(self, name, args, eval_expr):
@@ -369,6 +363,18 @@ class ArgumentFunction():
         self.args = args
         self.vars = {}
 
+    def eval(self):
+        environment.assign_args(self.args.eval())
+        def myfunc():
+            self.eval_expr.eval()
+        environment.assign_args_function(self.name.eval(), myfunc)
+
+
+class CallArgumenFunction():
+    def __init__(self, name, args):
+        self.name = name
+        self.args = args
+    
     def eval(self):
         ...
 

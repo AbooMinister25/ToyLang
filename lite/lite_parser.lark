@@ -15,7 +15,7 @@ start: expr*
           | "while" expr "==" expr block  -> conditional_loop
           | "for" NAME "in" expr          -> for_loop
           | "function" NAME "(" ")" block -> no_argument_function
-          | "function" NAME "(" args ")" block   -> argument_function
+          | "function" NAME args block   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
@@ -50,7 +50,7 @@ start: expr*
 block: "{" expr+ "}"
      | "{" statement+ "}"
 
-args: NAME+
+args: "(" NAME+ ")"
 
 SEMICOLON: ";"
 
