@@ -1,4 +1,4 @@
-# Lite  v.1.0.0
+# Lite  v.1.0.1
 ### An interpreted programming language made in python3
 
 
@@ -35,7 +35,7 @@ if x == "div" {
 * input statements
 * if statements
 * else statements
-* functions (limited)
+* functions
 * variables
 * addition
 * subtraction
