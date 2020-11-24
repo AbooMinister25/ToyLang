@@ -2,6 +2,7 @@ start: expr*
       | statement*
       | block*
       | args*
+     //  | funcblock
 
 
 ?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
@@ -15,7 +16,7 @@ start: expr*
           | "while" expr "==" expr block  -> conditional_loop
           | "for" NAME "in" expr          -> for_loop
           | "function" NAME "(" ")" block -> no_argument_function
-          | "function" NAME args block   -> argument_function
+          // | "function" NAME args funcblock   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
           | NAME "(" expr+ ")" ";"   -> argument_call_function
           | "exit" "(" ")" ";"            -> exit_statement
@@ -47,6 +48,7 @@ start: expr*
      | "square_root" "(" NUMBER ")"   -> square_root
      | "path_exists" "(" expr ")"     -> path_exists
      | "range" "(" expr ")"           -> range
+     | "hash" "(" expr ")"            -> hash_expr
 
 block: "{" expr+ "}"
      | "{" statement+ "}"

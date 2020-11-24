@@ -98,6 +98,9 @@ class LiteTransformer(Transformer):
 
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)
+    
+    def hash_expr(self, expr):
+        return Hash(expr)
 
     def if_statement(self, expr1, expr2, eval_expr):
         return If(expr1, expr2, eval_expr)
@@ -131,6 +134,9 @@ class LiteTransformer(Transformer):
 
     def block(self, *exprs):
         return Block(exprs)
+    
+    def funcblock(self, *exprs):
+        return FuncBlock(exprs)
     
     def args(self, *arguments):
         return Args(arguments)

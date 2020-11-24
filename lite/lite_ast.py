@@ -341,6 +341,15 @@ class ConditionalLoop():
             self.eval_expr.eval()
 
 
+class FuncBlock():
+    def __init__(self, exprs):
+        self.exprs = exprs
+        self.locals = {}
+
+    def eval(self):
+        ...
+
+
 class Args():
     def __init__(self, args):
         self.args = args
@@ -348,14 +357,6 @@ class Args():
 
     def eval(self):
         return self.args
-
-
-class InputArgs():
-    def __init__(self, args):
-        self.args = args
-    
-    def eval(self):
-        return self.args.eval()
 
 
 class ArgumentFunction():
@@ -493,3 +494,11 @@ class Wait():
 
     def eval(self):
         return time.sleep(self.time.eval())
+
+
+class Hash():
+    def __init__(self, expr):
+        self.expr = expr
+    
+    def eval(self):
+        return hash(self.expr.eval())
