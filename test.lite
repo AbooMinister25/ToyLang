@@ -1,4 +1,0 @@
-function myfunction(val1){
-    print(val1);
-}
-myfunction("HI");

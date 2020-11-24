@@ -29,18 +29,18 @@ class Env():
 
     def call_function(self, name, args):
         try:
-            len_args = len(self.functions[name]["args"])
+            len_args = len(self.functions[name]["args"].eval(self))
             if args is None:
                 pass
             else:
                 if len_args == len(args):
                     eval_args = [arg.eval(self) for arg in args]
                     for arg in eval_args:
-                        self.functions[name]["eval"].local.assign_variable(self.functions[name]["args"].index(eval_args.index(arg)), arg)
+                        self.functions[name]["eval"].local.assign_variable(self.functions[name]["args"].eval(self)[eval_args.index(arg)], arg)
                 else:
                     return Exception("Invalid Number Of Arguments Given")
-        except:
-            pass
+        except Exception as e:
+            raise e
         return self.functions[name]["eval"].eval(self)
 
     def call_args_function(self, name, args):

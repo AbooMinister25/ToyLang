@@ -18,7 +18,7 @@ start: expr*
           | "function" NAME "(" ")" funcblock -> no_argument_function
           | "function" NAME args funcblock   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
-          | NAME "(" expr+ ")" ";"   -> argument_call_function
+          | NAME "(" expr ("," expr)* ")" ";"   -> argument_call_function
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
           | "wait" "(" expr ")" ";"       -> wait
@@ -53,7 +53,7 @@ start: expr*
 block: "{" expr+ "}"
      | "{" statement+ "}"
 
-args: "(" NAME+ ")"
+args: "(" [NAME ("," NAME)*] ")"
 
 funcblock: "{" expr+ "}"
          | "{" statement+ "}"
