@@ -27,12 +27,20 @@ class Env():
     def define_args_function(self, name, eval_expr):
         self.arg_functions[name] = eval_expr
 
-    def call_function(self, name):
-        args = self.functions[name]["args"]
-        if args is None:
+    def call_function(self, name, args):
+        try:
+            len_args = len(self.functions[name]["args"])
+            if args is None:
+                pass
+            else:
+                if len_args == len(args):
+                    eval_args = [arg.eval(self) for arg in args]
+                    for arg in eval_args:
+                        self.functions[name]["eval"].local.assign_variable(self.functions[name]["args"].index(eval_args.index(arg)), arg)
+                else:
+                    return Exception("Invalid Number Of Arguments Given")
+        except:
             pass
-        else:
-            eval_args = [arg.eval(self) for arg in args]
         return self.functions[name]["eval"].eval(self)
 
     def call_args_function(self, name, args):
@@ -385,30 +393,6 @@ class Args():
     def eval(self, env):
         return self.args
 
-
-class ArgumentFunction():
-    def __init__(self, name, args, eval_expr):
-        self.name = name
-        self.eval_expr = eval_expr
-        self.args = args
-        self.vars = {}
-
-    def eval(self, env):
-        env.assign_args(self.name, self.args.eval(env))
-        def myfunc(*args):
-            self.eval_expr.eval(env)
-        env.define_args_function(self.name, myfunc)
-
-
-class CallArgumentFunction():
-    def __init__(self, name, args):
-        self.name = name
-        self.args = args
-    
-    def eval(self, env):
-        env.call_args_function(self.name, self.args)
-
-
 class Function():
     def __init__(self, name, eval_expr, args=None):
         self.name = name
@@ -425,7 +409,7 @@ class CallFunction():
         self.args = args
 
     def eval(self, env):
-        env.call_function(self.name)
+        env.call_function(self.name, self.args)
 
 
 class Sum():
