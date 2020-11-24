@@ -5,7 +5,6 @@ import math
 import sys
 import time
 
-
 class Env():
     def __init__(self):
         self.variables = {}
@@ -19,8 +18,8 @@ class Env():
     def assign_variable(self, name, value):
         self.variables[name] = value
 
-    def define_function(self, name, eval_expr):
-        self.functions[name] = eval_expr
+    def define_function(self, name, eval_expr, args):
+        self.functions[name] = {"eval": eval_expr, "args": args}
 
     def assign_args(self, name, args):
         self.args[name] = args
@@ -29,10 +28,12 @@ class Env():
         self.arg_functions[name] = eval_expr
 
     def call_function(self, name):
-        try:
-            return self.functions[name].eval()
-        except:
-            raise Exception(f"Function {name} not found")
+        args = self.functions[name]["args"]
+        if args is None:
+            pass
+        else:
+            eval_args = [arg.eval(self) for arg in args]
+        return self.functions[name]["eval"].eval(self)
 
     def call_args_function(self, name, args):
         try:
@@ -51,16 +52,16 @@ class Print():
     def __init__(self, value):
         self.value = value
 
-    def eval(self):
-        return print(self.value.eval())
+    def eval(self, env):
+        return print(self.value.eval(env))
 
 
 class Input():
     def __init__(self, value):
         self.value = value
 
-    def eval(self):
-        return input(self.value.eval())
+    def eval(self, env):
+        return input(self.value.eval(env))
 
 
 class Add():
@@ -68,7 +69,7 @@ class Add():
         self.val1 = int(val1)
         self.val2 = int(val2)
 
-    def eval(self):
+    def eval(self, env):
         return self.val1 + self.val2
 
 
@@ -77,7 +78,7 @@ class StringAdd():
         self.val1 = str(val1)
         self.val2 = str(val2)
 
-    def eval(self):
+    def eval(self, env):
         return self.val1 + self.val2
 
 
@@ -86,7 +87,7 @@ class Sub():
         self.val1 = int(val1)
         self.val2 = int(val2)
 
-    def eval(self):
+    def eval(self, env):
         return self.val1 - self.val2
 
 
@@ -95,7 +96,7 @@ class Mul():
         self.val1 = int(val1)
         self.val2 = int(val2)
 
-    def eval(self):
+    def eval(self, env):
         return self.val1 * self.val2
 
 
@@ -104,7 +105,7 @@ class Div():
         self.val1 = int(val1)
         self.val2 = int(val2)
 
-    def eval(self):
+    def eval(self, env):
         return self.val1 / self.val2
 
 
@@ -112,7 +113,7 @@ class String():
     def __init__(self, value):
         self.value = str(value).strip('"')
 
-    def eval(self):
+    def eval(self, env):
         return self.value
 
 
@@ -120,7 +121,7 @@ class Integer():
     def __init__(self, value):
         self.value = int(value)
 
-    def eval(self):
+    def eval(self, env):
         return self.value
 
 
@@ -128,7 +129,7 @@ class Array():
     def __init__(self, value):
         self.value = list(value)
 
-    def eval(self):
+    def eval(self, env):
         value = []
         for val in self.value:
             value.append(val.eval())
@@ -140,8 +141,8 @@ class AssignVariable():
         self.name = name
         self.value = value
 
-    def eval(self):
-        environment.assign_variable(self.name, self.value.eval())
+    def eval(self, env):
+        env.assign_variable(self.name, self.value.eval(env))
 
     def __repr__(self):
         return f"Start({self.name}, {self.value})"
@@ -152,11 +153,11 @@ class GetVariable():
         self.name = name
         self.array = array
 
-    def eval(self):
-        return environment.get_variable(self.name)
+    def eval(self, env):
+        return env.get_variable(self.name)
 
     def __repr__(self):
-        return f"GetVaroab;e({self.name})"
+        return f"GetVariblee({self.name})"
 
 
 class GetArrayIndex():
@@ -164,17 +165,17 @@ class GetArrayIndex():
         self.name = name
         self.index = index
 
-    def eval(self):
-        return environment.get_array_index(self.name, self.index)
+    def eval(self, env):
+        return env.get_array_index(self.name, self.index)
 
 
 class Block():
     def __init__(self, exprs):
         self.exprs = exprs
 
-    def eval(self):
+    def eval(self, env):
         for expr in self.exprs:
-            expr.eval()
+            expr.eval(env)
 
 
 class If():
@@ -184,15 +185,15 @@ class If():
         self.eval_expr = eval_expr
         self.else_statement = else_statement
 
-    def eval(self):
-        if self.expr1.eval() == self.expr2.eval():
-            self.eval_expr.eval()
+    def eval(self, env):
+        if self.expr1.eval(env) == self.expr2.eval(env):
+            self.eval_expr.eval(env)
 
         else:
             if self.else_statement == None:
                 return
             else:
-                self.else_statement.eval()
+                self.else_statement.eval(env)
 
     def __repr__(self):
         return f"If({self.expr1}, {self.expr2}, {self.eval_expr}, {self.else_statement})"
@@ -207,15 +208,15 @@ class IfOr():
         self.else_statement = else_statement
         self.eval_expr = eval_expr
 
-    def eval(self):
-        if self.expr1.eval() == self.expr2.eval() or self.expr3.eval() == self.expr4.eval():
-            self.eval_expr.eval()
+    def eval(self, env):
+        if self.expr1.eval(env) == self.expr2.eval(env) or self.expr3.eval(env) == self.expr4.eval(env):
+            self.eval_expr.eval(env)
 
         else:
             if self.else_statement == None:
                 return
             else:
-                self.else_statement.eval()
+                self.else_statement.eval(env)
 
 
 class AddVar():
@@ -223,15 +224,15 @@ class AddVar():
         self.var1 = var1
         self.var2 = var2
 
-    def eval(self):
-        if GetVariable(self.var1).eval() == String:
-            var1 = str(GetVariable(self.var1).eval())
+    def eval(self, env):
+        if GetVariable(self.var1).eval(env) == String:
+            var1 = str(GetVariable(self.var1).eval(env))
         else:
-            var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var1).eval() == String:
-            var2 = str(GetVariable(self.var2).eval())
+            var1 = int(GetVariable(self.var1).eval(env))
+        if GetVariable(self.var1).eval(env) == String:
+            var2 = str(GetVariable(self.var2).eval(env))
         else:
-            var2 = int(GetVariable(self.var2).eval())
+            var2 = int(GetVariable(self.var2).eval(env))
         return var1 + var2
 
     def __repr__(self):
@@ -242,9 +243,9 @@ class Start():
     def __init__(self, statements):
         self.statements = statements
 
-    def eval(self):
+    def eval(self, env):
         for statement in self.statements:
-            statement.eval()
+            statement.eval(env)
 
     def __repr__(self):
         return f"Start({self.statements})"
@@ -255,15 +256,15 @@ class SubVar():
         self.var1 = var1
         self.var2 = var2
 
-    def eval(self):
-        if GetVariable(self.var1).eval() == String:
+    def eval(self, env):
+        if GetVariable(self.var1).eval(env) == String:
             return ValueError("String object cannot be subtracted")
         else:
-            var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var2).eval() == String:
+            var1 = int(GetVariable(self.var1).eval(env))
+        if GetVariable(self.var2).eval(env) == String:
             return ValueError("String object cannot be subtracted")
         else:
-            var2 = int(GetVariable(self.var2).eval())
+            var2 = int(GetVariable(self.var2).eval(env))
         return var1 - var2
 
     def __repr__(self):
@@ -275,15 +276,15 @@ class MulVar():
         self.var1 = var1
         self.var2 = var2
 
-    def eval(self):
-        if GetVariable(self.var1).eval() == String:
+    def eval(self, env):
+        if GetVariable(self.var1).eval(env) == String:
             return ValueError("String object cannot be multiplied")
         else:
-            var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var2).eval() == String:
+            var1 = int(GetVariable(self.var1).eval(env))
+        if GetVariable(self.var2).eval(env) == String:
             return ValueError("String object cannot be multiplied")
         else:
-            var2 = int(GetVariable(self.var2).eval())
+            var2 = int(GetVariable(self.var2).eval(env))
         return var1 * var2
 
 
@@ -292,15 +293,15 @@ class DivVar():
         self.var1 = var1
         self.var2 = var2
 
-    def eval(self):
-        if GetVariable(self.var1).eval() == String:
+    def eval(self, env):
+        if GetVariable(self.var1).eval(env) == String:
             return ValueError("String object cannot be divided")
         else:
-            var1 = int(GetVariable(self.var1).eval())
-        if GetVariable(self.var2).eval() == String:
+            var1 = int(GetVariable(self.var1).eval(env))
+        if GetVariable(self.var2).eval(env) == String:
             return ValueError("String object cannot be divided")
         else:
-            var2 = int(GetVariable(self.var2).eval())
+            var2 = int(GetVariable(self.var2).eval(env))
         return var1 / var2
 
 
@@ -308,7 +309,7 @@ class TrueBool():
     def __init__(self):
         self.value = True
 
-    def eval(self):
+    def eval(self, env):
         return self.value
 
 
@@ -316,7 +317,7 @@ class FalseBool():
     def __init__(self):
         self.value = False
 
-    def eval(self):
+    def eval(self, env):
         return self.value
 
 
@@ -325,9 +326,9 @@ class While():
         self.condition = condition
         self.eval_expr = eval_expr
 
-    def eval(self):
-        while self.condition.eval():
-            self.eval_expr.eval()
+    def eval(self, env):
+        while self.condition.eval(env):
+            self.eval_expr.eval(env)
 
 
 class ConditionalLoop():
@@ -336,18 +337,44 @@ class ConditionalLoop():
         self.expr2 = expr2
         self.eval_expr = eval_expr
 
-    def eval(self):
-        while self.expr1.eval() == self.expr2.eval():
-            self.eval_expr.eval()
+    def eval(self, env):
+        while self.expr1.eval(env) == self.expr2.eval(env):
+            self.eval_expr.eval(env)
 
 
 class FuncBlock():
     def __init__(self, exprs):
         self.exprs = exprs
-        self.locals = {}
+        class Local():
+            def __init__(self):
+                self.functions = {}
+                self.variables = {}
+            
+            def get_variable(self, name):
+                return self.variables[name]
+            
+            def assign_variable(self, name, value):
+                self.variables[name] = value
+            
+            def define_function(self, name, eval_expr, args):
+                self.functions[name] = {"eval": eval_expr, "args": args}
+            
+            def call_funciton(self, name):
+                args = self.functions[name]["args"]
+                if args is None:
+                    pass
+                else:
+                    eval_args = [arg.eval(self) for arg in args]
+                return self.functions[name]["eval"].eval(self)
 
-    def eval(self):
-        ...
+            def get_array_index(self, name, index):
+                return self.variables[name][int(index)]
+        
+        self.local = Local()
+
+    def eval(self, env):
+        for expr in self.exprs:
+            expr.eval(self.local)
 
 
 class Args():
@@ -355,7 +382,7 @@ class Args():
         self.args = args
         self.locals = {}
 
-    def eval(self):
+    def eval(self, env):
         return self.args
 
 
@@ -366,11 +393,11 @@ class ArgumentFunction():
         self.args = args
         self.vars = {}
 
-    def eval(self):
-        environment.assign_args(self.name, self.args.eval())
+    def eval(self, env):
+        env.assign_args(self.name, self.args.eval(env))
         def myfunc(*args):
-            self.eval_expr.eval()
-        environment.define_args_function(self.name, myfunc)
+            self.eval_expr.eval(env)
+        env.define_args_function(self.name, myfunc)
 
 
 class CallArgumentFunction():
@@ -378,8 +405,8 @@ class CallArgumentFunction():
         self.name = name
         self.args = args
     
-    def eval(self):
-        environment.call_args_function(self.name, self.args)
+    def eval(self, env):
+        env.call_args_function(self.name, self.args)
 
 
 class Function():
@@ -388,24 +415,25 @@ class Function():
         self.eval_expr = eval_expr
         self.args = args
 
-    def eval(self):
-        environment.define_function(self.name, self.eval_expr)
+    def eval(self, env):
+        env.define_function(self.name, self.eval_expr, self.args)
 
 
 class CallFunction():
-    def __init__(self, name):
+    def __init__(self, name, args=None):
         self.name = name
+        self.args = args
 
-    def eval(self):
-        environment.call_function(self.name)
+    def eval(self, env):
+        env.call_function(self.name)
 
 
 class Sum():
     def __init__(self, value):
         self.value = value
 
-    def eval(self):
-        return sum(self.value.eval())
+    def eval(self, env):
+        return sum(self.value.eval(env))
 
 
 class RandomInteger():
@@ -413,16 +441,16 @@ class RandomInteger():
         self.range1 = range1
         self.range2 = range2
 
-    def eval(self):
-        return random.randint(self.range1.eval(), self.range2.eval())
+    def eval(self, env):
+        return random.randint(self.range1.eval(env), self.range2.eval(env))
 
 
 class ReadFile():
     def __init__(self, filename):
         self.filename = filename
 
-    def eval(self):
-        data = open(self.filename.eval(), "r")
+    def eval(self, env):
+        data = open(self.filename.eval(env), "r")
         return data.readlines()
 
 
@@ -449,56 +477,56 @@ class Doc():
             "exit": "statement: statement for exiting the program, can have an optional exit message"
         }
 
-    def eval(self):
+    def eval(self, env):
         try:
-            return self.docstrings[self.value.eval()]
+            return self.docstrings[self.value.eval(env)]
         except:
-            return Exception(f"Docstring for {self.value} not found")
+            return Exception(f"Docstring for {self.value.eval(env)} not found")
 
 
 class Mean():
     def __init__(self, data):
         self.data = data
 
-    def eval(self):
-        return statistics.mean(self.data.eval())
+    def eval(self, env):
+        return statistics.mean(self.data.eval(env))
 
 
 class SquareRoot():
     def __init__(self, data):
         self.data = data
 
-    def eval(self):
-        return math.sqrt(self.data.eval())
+    def eval(self, env):
+        return math.sqrt(self.data.eval(env))
 
 
 class Exit():
     def __init__(self, message):
         self.message = message
 
-    def eval(self):
-        sys.exit(self.message.eval())
+    def eval(self, env):
+        sys.exit(self.message.eval(env))
 
 
 class PathExists():
     def __init__(self, path):
         self.path = path
 
-    def eval(self):
-        return os.path.exists(self.path.eval())
+    def eval(self, env):
+        return os.path.exists(self.path.eval(env))
 
 
 class Wait():
     def __init__(self, time):
         self.time = time
 
-    def eval(self):
-        return time.sleep(self.time.eval())
+    def eval(self, env):
+        return time.sleep(self.time.eval(env))
 
 
 class Hash():
     def __init__(self, expr):
         self.expr = expr
     
-    def eval(self):
-        return hash(self.expr.eval())
+    def eval(self, env):
+        return hash(self.expr.eval(env))

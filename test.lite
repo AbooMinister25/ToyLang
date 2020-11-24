@@ -1,0 +1,6 @@
+function myfunction(){
+    print("HI");
+    x = 5;
+    print(x);
+}
+myfunction();

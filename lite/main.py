@@ -69,7 +69,7 @@ def run_with_python_traceback(filename=None):
         with open(filename, "r") as f:
             lite_code = f.read()
             tree = parser.parse(lite_code)
-            x = LiteTransformer().transform(tree).eval()
+            x = LiteTransformer().transform(tree).eval(Env())
         
         
 
