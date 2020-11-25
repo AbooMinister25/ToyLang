@@ -65,6 +65,9 @@ class LiteTransformer(Transformer):
 
     def doc(self, value):
         return Doc(value)
+    
+    def range_expr(self, val1):
+        return Range(val1)
 
     def print_statement(self, value, semicolon):
         return Print(value)
@@ -116,6 +119,9 @@ class LiteTransformer(Transformer):
 
     def conditional_loop(self, expr1, expr2, eval_expr):
         return ConditionalLoop(expr1, expr2, eval_expr)
+    
+    def for_loop(self, condition, eval_expr):
+        return For(condition, eval_expr)
 
     def no_argument_function(self, name, eval_expr):
         return Function(name, eval_expr)
@@ -140,6 +146,9 @@ class LiteTransformer(Transformer):
     
     def args(self, *arguments):
         return Args(arguments)
+    
+    def loopexpr(self, value, expr):
+        return LoopExpr(value, expr)
 
     def COMMENT(self):
         pass

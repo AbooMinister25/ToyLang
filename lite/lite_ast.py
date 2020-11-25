@@ -140,7 +140,7 @@ class Array():
     def eval(self, env):
         value = []
         for val in self.value:
-            value.append(val.eval())
+            value.append(val.eval(env))
         return value
 
 
@@ -514,3 +514,29 @@ class Hash():
     
     def eval(self, env):
         return hash(self.expr.eval(env))
+
+
+class LoopExpr():
+    def __init__(self, value, expr):
+        self.value = value
+        self.expr = expr
+    
+    def eval(self, env):
+        return [self.value, self.expr.eval(env)]
+
+class For():
+    def __init__(self, condition, eval_expr):
+        self.condition = condition
+        self.eval_expr = eval_expr
+    
+    def eval(self, env):
+        for self.condition.eval(env)[0] in self.condition.eval(env)[1]:
+            self.eval_expr.eval(env)
+
+
+class Range():
+    def __init__(self, val1):
+        self.val1 = val1
+    
+    def eval(self, env):
+        return range(self.val1.eval(env))

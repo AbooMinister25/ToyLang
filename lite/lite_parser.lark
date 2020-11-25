@@ -2,8 +2,7 @@ start: expr*
       | statement*
       | block*
       | args*
-     //  | funcblock
-
+      | loopexpr*
 
 ?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
@@ -14,7 +13,7 @@ start: expr*
           | "if" expr "==" expr "or" expr "==" expr block -> or_if_statement
           | "while" expr block     -> while_loop
           | "while" expr "==" expr block  -> conditional_loop
-          | "for" NAME "in" expr          -> for_loop
+          | "for" loopexpr block          -> for_loop
           | "function" NAME "(" ")" funcblock -> no_argument_function
           | "function" NAME args funcblock   -> argument_function
           | NAME "(" ")" ";"              -> no_argument_call_function
@@ -47,7 +46,7 @@ start: expr*
      | "mean" "(" expr ")"          -> mean
      | "square_root" "(" NUMBER ")"   -> square_root
      | "path_exists" "(" expr ")"     -> path_exists
-     | "range" "(" expr ")"           -> range
+     | "range" "(" expr ")"           -> range_expr
      | "hash" "(" expr ")"            -> hash_expr
 
 block: "{" expr+ "}"
@@ -57,6 +56,9 @@ args: "(" [NAME ("," NAME)*] ")"
 
 funcblock: "{" expr+ "}"
          | "{" statement+ "}"
+
+loopexpr: NAME "in" expr
+
 
 SEMICOLON: ";"
 
