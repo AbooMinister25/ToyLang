@@ -21,6 +21,7 @@ start: expr*
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
           | "wait" "(" expr ")" ";"       -> wait
+          | "import" NAME                 -> import_statement
 
 
 ?expr: STRING            -> string
@@ -58,7 +59,6 @@ funcblock: "{" expr+ "}"
          | "{" statement+ "}"
 
 loopexpr: NAME "in" expr
-
 
 SEMICOLON: ";"
 

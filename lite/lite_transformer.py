@@ -1,6 +1,7 @@
 from lark import Lark, Transformer, v_args
 from lite_ast import *
 from lite_errors import *
+from importer import Importer
 from lark import exceptions
 import os.path
 import sys
@@ -9,7 +10,7 @@ import sys
 @v_args(inline=True)
 class LiteTransformer(Transformer):
     def __init__(self):
-        ...
+        self.modules = {}
 
     def number(self, value):
         return Integer(value)
@@ -137,6 +138,10 @@ class LiteTransformer(Transformer):
     
     def wait(self, time):
         return Wait(time)
+    
+    def import_statement(self, module):
+        x = __import__(module)
+        self.modules[module] = x
 
     def block(self, *exprs):
         return Block(exprs)
@@ -155,33 +160,6 @@ class LiteTransformer(Transformer):
 
     def start(self, *statements):
         return Start(statements)
-
-if __name__ == '__main__':
-    # while True:
-    #     try:
-    #         x = input("> ")
-    #     except EOFError:
-    #         break
-    #     tree = parser.parse(x)
-    #     print(LiteTransformer().transform(tree))
-    with open("test.lite", "r") as f:
-        lite_code = f.read()
-
-    try:
-        tree = parser.parse(lite_code)
-    except exceptions.UnexpectedToken as e:
-        MissingToken(e.expected, e.line, e.column, e.get_context(lite_code))
-        sys.exit()
-    else:
-        InvalidSyntax()
-    try:
-        x = LiteTransformer().transform(tree).eval()
-    except KeyError as e:
-        InvalidName(e.args)
-    except IndexError as e:
-        InvalidIndex(e.args)
-    except TypeError as e:
-        InvalidType(e.args)
-    else:
-        InvalidSyntax()
-
+    
+    def __default__(self, data):
+        print("NOT")

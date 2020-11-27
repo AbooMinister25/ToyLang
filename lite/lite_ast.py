@@ -540,3 +540,11 @@ class Range():
     
     def eval(self, env):
         return range(self.val1.eval(env))
+
+
+class Import():
+    def __init__(self, module):
+        self.module = module
+    
+    def eval(self, env):
+        return
