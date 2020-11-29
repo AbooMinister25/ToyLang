@@ -10,7 +10,7 @@ import sys
 @v_args(inline=True)
 class LiteTransformer(Transformer):
     def __init__(self):
-        self.modules = {}
+        self.importer = Importer()
 
     def number(self, value):
         return Integer(value)
@@ -140,8 +140,16 @@ class LiteTransformer(Transformer):
         return Wait(time)
     
     def import_statement(self, module):
-        x = __import__(module)
-        self.modules[module] = x
+        self.importer.import_module(module)
+        return Import(module)
+    
+    def module_function(self, modulename, modulefunction):
+        getattr(self.importer.modules[modulename], modulefunction)()
+        return ModuleFunction()
+    
+    def module_argument_function(self, modulename, modulefunction, arguments):
+        getattr(self.importer.modules[modulename], modulefunction)(str(arguments))
+        return ModuleFunction()
 
     def block(self, *exprs):
         return Block(exprs)
@@ -161,5 +169,10 @@ class LiteTransformer(Transformer):
     def start(self, *statements):
         return Start(statements)
     
-    def __default__(self, data):
-        print("NOT")
+    @staticmethod
+    def get_imports():
+        return importer.modules.keys()
+    
+    @staticmethod
+    def get_module(modulename):
+        return importer.modules[modulename]

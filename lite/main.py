@@ -17,9 +17,6 @@ def get_correct_path(relative_path):
 parser = Lark.open("lite_parser.lark", rel_to = __file__,
                    parser='lalr')
 
-# if len(LiteTransformer.modules) != None:
-#     for module in LiteTransformer.modules:
-#         LiteTransformer = LiteTransformer * module.?T
 
 def run_lite(filename=None):
     if filename == None:

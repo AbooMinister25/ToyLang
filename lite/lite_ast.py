@@ -548,3 +548,11 @@ class Import():
     
     def eval(self, env):
         return
+
+
+class ModuleFunction():
+    def __init__(self):
+        ...
+    
+    def eval(self, env):
+        return

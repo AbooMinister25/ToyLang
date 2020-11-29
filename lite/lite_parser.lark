@@ -21,7 +21,7 @@ start: expr*
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
           | "wait" "(" expr ")" ";"       -> wait
-          | "import" NAME                 -> import_statement
+          | "import" "(" NAME ("," NAME)* ")"         -> import_statement
 
 
 ?expr: STRING            -> string
@@ -49,6 +49,9 @@ start: expr*
      | "path_exists" "(" expr ")"     -> path_exists
      | "range" "(" expr ")"           -> range_expr
      | "hash" "(" expr ")"            -> hash_expr
+     | NAME"."NAME "("")" ";"        -> module_function
+     | NAME"."NAME "(" expr ("," expr)* ")" ";"          -> module_argument_function
+
 
 block: "{" expr+ "}"
      | "{" statement+ "}"

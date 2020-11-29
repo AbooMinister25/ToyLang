@@ -1,1 +1,5 @@
-fdalfjd
+import (
+    filetools
+)
+
+print(filetools.check_path("filetools"););
