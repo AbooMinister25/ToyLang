@@ -125,6 +125,15 @@ class String():
         return self.value
 
 
+class TripleQuoteString():
+    def __init__(self, value):
+        value = value.strip()
+        self.value = value.strip('"')
+    
+    def eval(self, env):
+        return self.value
+
+
 class Integer():
     def __init__(self, value):
         self.value = int(value)
@@ -551,8 +560,22 @@ class Import():
 
 
 class ModuleFunction():
-    def __init__(self):
-        ...
+    def __init__(self, function, arguments):
+        self.function = function
+        self.arguments = arguments
     
     def eval(self, env):
-        return
+        try:
+            evaled_args = [arg.eval(env) for arg in self.arguments]
+        except:
+            evaled_args = self.arguments.eval(env)
+        return self.function(evaled_args)
+
+
+class IncludeEvaluator():
+    def __init__(self, evaluator, data):
+        self.evaluator = evaluator
+        self.data = data
+    
+    def eval(self, env):
+        return self.evaluator.Evaluator(self.data.eval(env))

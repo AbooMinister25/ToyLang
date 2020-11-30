@@ -21,10 +21,15 @@ start: expr*
           | "exit" "(" ")" ";"            -> exit_statement
           | "exit" "(" expr ")" ";"       -> exit_statement
           | "wait" "(" expr ")" ";"       -> wait
-          | "import" "(" NAME ("," NAME)* ")"         -> import_statement
+          | "import" "(" NAME ("," NAME)* ")" ";"         -> import_statement
+          | NAME"."NAME "("")" ";"        -> module_function
+          | NAME"."NAME "(" expr ("," expr)* ")" ";"           -> module_argument_function
+          | "include" "(" NAME ("," NAME)* ")" ";"        -> include_statement
+          | NAME".""Evaluator" "(" expr ("," expr)* ")" ";"    -> include_evaluator
 
 
 ?expr: STRING            -> string
+     | MULTILINE_STRING  -> triple_string
      | NUMBER            -> number
      | "[" [expr ("," expr)*] "]" -> array
      | NUMBER "+" NUMBER -> add
@@ -49,8 +54,8 @@ start: expr*
      | "path_exists" "(" expr ")"     -> path_exists
      | "range" "(" expr ")"           -> range_expr
      | "hash" "(" expr ")"            -> hash_expr
-     | NAME"."NAME "("")" ";"        -> module_function
-     | NAME"."NAME "(" expr ("," expr)* ")" ";"          -> module_argument_function
+     | NAME"."NAME "("")"         -> module_function
+     | NAME"."NAME "(" expr ("," expr)* ")"           -> module_argument_function
 
 
 block: "{" expr+ "}"
@@ -64,6 +69,10 @@ funcblock: "{" expr+ "}"
 loopexpr: NAME "in" expr
 
 SEMICOLON: ";"
+
+TRIPLE_QUOTE: /"""/
+
+MULTILINE_STRING: TRIPLE_QUOTE /(.|\n|\r|[a-zA-Z0-9_.-]{2,}])+/ TRIPLE_QUOTE
 
 %import common.ESCAPED_STRING -> STRING 
 %import common.NUMBER

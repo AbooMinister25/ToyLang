@@ -26,5 +26,3 @@ def check_path(path):
         return True
     else:
         return False
-
-

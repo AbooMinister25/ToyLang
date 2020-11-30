@@ -18,6 +18,9 @@ class LiteTransformer(Transformer):
     def string(self, value):
         value = str(value).strip('"')
         return String(value)
+    
+    def triple_string(self, value):
+        return TripleQuoteString(value)
 
     def array(self, *value):
         return Array(value)
@@ -143,13 +146,20 @@ class LiteTransformer(Transformer):
         self.importer.import_module(module)
         return Import(module)
     
+    def include_statement(self, module):
+        self.importer.import_module(module)
+        return Import(module)
+    
     def module_function(self, modulename, modulefunction):
         getattr(self.importer.modules[modulename], modulefunction)()
         return ModuleFunction()
     
     def module_argument_function(self, modulename, modulefunction, arguments):
-        getattr(self.importer.modules[modulename], modulefunction)(str(arguments))
-        return ModuleFunction()
+        return ModuleFunction(getattr(self.importer.modules[modulename], modulefunction), arguments)
+    
+    def include_evaluator(self, module, data):
+        evaluator = self.importer.modules[module]
+        return IncludeEvaluator(evaluator, data)
 
     def block(self, *exprs):
         return Block(exprs)
