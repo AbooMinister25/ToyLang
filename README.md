@@ -1,4 +1,4 @@
-# Lite  v.1.0.1
+# Lite  v.1.0.3
 ### An interpreted programming language made in python3
 
 
@@ -43,10 +43,11 @@ if x == "div" {
 * division
 * loops
 * booleans
+* builtin modules (Only two at the moment)
 * other small built in functions, full reference can be found at the documentation
 
 Functions are very limited at the moment, Lite does not support arguments and doesn't have return statements yet, all of this is planning to be added in a later release.
-You can find more examples and a complete and more detailed reference at the documentation. (Coming Soon)
+You can find more examples and a complete and more detailed reference at the documentation. (Coming Soon), or at the REFERENCE.md file.
 
 # Installation
 The installation for Lite is pretty straightforward, just follow the steps below.

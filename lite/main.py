@@ -30,7 +30,7 @@ def run_lite(filename=None):
             else:
                 InvalidSyntax()
             try:
-                x = LiteTransformer().transform(tree).eval()
+                x = LiteTransformer().transform(tree).eval(Env())
             except KeyError as e:
                 InvalidName(e.args)
             except IndexError as e:
@@ -50,7 +50,7 @@ def run_lite(filename=None):
         else:
             InvalidSyntax()
         try:
-            x = LiteTransformer().transform(tree).eval()
+            x = LiteTransformer().transform(tree).eval(Env())
         except KeyError as e:
             InvalidName(e.args)
         except IndexError as e:

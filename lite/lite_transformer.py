@@ -178,11 +178,3 @@ class LiteTransformer(Transformer):
 
     def start(self, *statements):
         return Start(statements)
-    
-    @staticmethod
-    def get_imports():
-        return importer.modules.keys()
-    
-    @staticmethod
-    def get_module(modulename):
-        return importer.modules[modulename]
