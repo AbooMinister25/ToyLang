@@ -1,0 +1,13 @@
+include (
+    PythonEvaluator
+);
+
+PythonEvaluator.Evaluator(
+"""
+import time
+print("Before 5 seconds")
+time.sleep(5)
+print("After 5 seconds")
+"""
+);
+

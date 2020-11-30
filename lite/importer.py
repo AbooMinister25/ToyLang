@@ -12,7 +12,7 @@ class Importer():
             x = __import__(f"modules.{self.builtins[self.builtins.index(module)]}")
             self.modules[module] = getattr(x, module)
         elif module in self.includes:
-            x = __import__(f"modules.{self.incldes[self.includes.index(module)]}")
+            x = __import__(f"modules.{self.includes[self.includes.index(module)]}")
             self.modules[module] = getattr(x, module)
         else:
             raise Exception(f"Unable to import module {module}")
