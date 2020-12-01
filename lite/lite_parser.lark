@@ -56,6 +56,7 @@ start: expr*
      | "hash" "(" expr ")"            -> hash_expr
      | NAME"."NAME "("")"         -> module_function
      | NAME"."NAME "(" expr ("," expr)* ")"           -> module_argument_function
+     | "LiteDB" "(" expr ")"          -> lite_db
 
 
 block: "{" expr+ "}"

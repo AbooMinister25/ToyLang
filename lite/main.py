@@ -75,5 +75,5 @@ def run_with_python_traceback(filename=None):
         
 
 if __name__ == '__main__':
-    run_with_python_traceback('examples\python.lite')
+    run_with_python_traceback('test.lite')
 

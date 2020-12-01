@@ -13,6 +13,7 @@ def run(filename: str):
     """ Command for running and interacting with Lite code"""
     
     if filename == None:
+        print("Welcome to the Lite v1.0.3 shell! Press CTRL + V to exit")
         run_lite()
     if os.path.exists(filename):
         run_lite(filename)
