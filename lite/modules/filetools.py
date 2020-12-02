@@ -1,6 +1,6 @@
 import os
 
-def open_file(filename, lines=None):
+def read_file(filename, lines=None):
     with open(filename, "r") as f:
         if lines == None:
             data = f.read()
@@ -19,6 +19,14 @@ def write_file(filename, *data):
 def append_file(filename, *data):
     with open(filename, "a") as f:
         f.write(data)
+
+
+def open_file(filename, mode="r"):
+    return open(filename, mode)
+
+
+def close_file(filename):
+    filename.close()
 
 
 def check_path(path):

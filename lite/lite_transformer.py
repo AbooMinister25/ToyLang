@@ -142,7 +142,7 @@ class LiteTransformer(Transformer):
     def wait(self, time):
         return Wait(time)
     
-    def import_statement(self, module):
+    def import_statement(self, *module):
         self.importer.import_module(module)
         return Import(module)
     
@@ -154,7 +154,7 @@ class LiteTransformer(Transformer):
         getattr(self.importer.modules[modulename], modulefunction)()
         return ModuleFunction()
     
-    def module_argument_function(self, modulename, modulefunction, arguments):
+    def module_argument_function(self, modulename, modulefunction, *arguments):
         return ModuleFunction(getattr(self.importer.modules[modulename], modulefunction), arguments)
     
     def include_evaluator(self, module, data):

@@ -1,3 +1,0 @@
-x = LiteDB("db.ldb");
-
-x.set("Hi", "Hio");

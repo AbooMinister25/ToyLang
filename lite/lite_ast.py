@@ -558,7 +558,6 @@ class Import():
     def eval(self, env):
         return
 
-
 class ModuleFunction():
     def __init__(self, function, arguments):
         self.function = function
@@ -567,9 +566,10 @@ class ModuleFunction():
     def eval(self, env):
         try:
             evaled_args = [arg.eval(env) for arg in self.arguments]
-        except:
+        except Exception as e:
             evaled_args = self.arguments.eval(env)
-        return self.function(evaled_args)
+
+        return self.function(*evaled_args)
 
 
 class IncludeEvaluator():
