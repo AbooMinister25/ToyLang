@@ -1,9 +1,10 @@
 import click
-from main import run_lite
+from main import run_lite, __version__
 import os
 
+
 @click.group()
-def lite_cli():
+def lite_cli(version=__version__):
     """ CLI for the Lite programming language """
 
 
@@ -19,6 +20,11 @@ def run(filename: str):
         run_lite(filename)
     else:
         print(f"InvalidFilenameError: Invalid filename {filename} given")
+
+
+@lite_cli.command()
+def version():
+    print(__version__)
 
 
 if __name__ == '__main__':

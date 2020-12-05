@@ -5,6 +5,8 @@ from lite_errors import *
 import os
 import sys
 
+__version__ = "1.0.3"
+
 
 def get_correct_path(relative_path):
     try:

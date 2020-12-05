@@ -6,6 +6,7 @@ class Importer():
         self.modules = {}
         self.includes = ["PythonEvaluator"]
         self.builtins = ['filetools', 'jsontools']
+        self.externals = [f for f in os.listdir("lite\external_modules") if os.path.isfile(os.path.join("lite\external_modules", f))]
     
     def import_module(self, modules):
         for module in modules:
@@ -14,6 +15,9 @@ class Importer():
                 self.modules[module] = getattr(x, module)
             elif module in self.includes:
                 x = __import__(f"modules.{self.includes[self.includes.index(module)]}")
+                self.modules[module] = getattr(x, module)
+            elif module in self.externals:
+                x = __import__(f"external_modules.{self.externals[self.externals.index(module)]}")
                 self.modules[module] = getattr(x, module)
             else:
                 raise Exception(f"Unable to import module {module}")
