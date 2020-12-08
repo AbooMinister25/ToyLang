@@ -19,10 +19,11 @@ def ice_cli():
 @click.argument('filename')
 def install(filename):
     try:
-        r = requests.get(f"http://127.0.0.1:5000/get-module/{filename}.py")
+        r = requests.get(fr"https://rcyclegar.pythonanywhere.com/get-module/{filename}.py")
         open(f"lite\external_modules\{filename}.py", "w").write(r.text)
+        print(f"Module {filename} installed successfully")
     except FileNotFoundError:
-        print(f"No module name {filename}")
+        print(f"No module named {filename}")
     except Exception as e:
         print(f"The command raised the following exception: {e}")
 
