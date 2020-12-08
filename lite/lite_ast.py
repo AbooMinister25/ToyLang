@@ -560,16 +560,23 @@ class Import():
 
 class ModuleFunction():
     def __init__(self, function, arguments):
-        self.function = function
-        self.arguments = arguments
+        if function == None and arguments == None:
+            self.function = None
+            self.arguments = None
+        else:
+            self.function = function
+            self.arguments = arguments
     
     def eval(self, env):
-        try:
-            evaled_args = [arg.eval(env) for arg in self.arguments]
-        except Exception as e:
-            evaled_args = self.arguments.eval(env)
-
-        return self.function(*evaled_args)
+        if self.function == None and self.arguments == None:
+            pass
+        else:
+            try:
+                evaled_args = [arg.eval(env) for arg in self.arguments]
+            except Exception as e:
+                evaled_args = self.arguments.eval(env)
+            return self.function(*evaled_args)
+        return
 
 
 class IncludeEvaluator():

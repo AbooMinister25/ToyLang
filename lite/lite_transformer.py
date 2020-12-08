@@ -152,7 +152,7 @@ class LiteTransformer(Transformer):
     
     def module_function(self, modulename, modulefunction):
         getattr(self.importer.modules[modulename], modulefunction)()
-        return ModuleFunction()
+        return ModuleFunction(None, None)
     
     def module_argument_function(self, modulename, modulefunction, *arguments):
         return ModuleFunction(getattr(self.importer.modules[modulename], modulefunction), arguments)
