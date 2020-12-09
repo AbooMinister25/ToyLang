@@ -111,6 +111,9 @@ class LiteTransformer(Transformer):
     
     def path_exists(self, path):
         return PathExists(path)
+    
+    def get_type(self, value):
+        return GetType(value)
 
     def expr_comparison(self, expr1, expr2):
         return Comparison(expr1, expr2)

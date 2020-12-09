@@ -6,7 +6,7 @@ class Importer():
         self.modules = {}
         self.includes = ["PythonEvaluator"]
         self.builtins = ['filetools', 'jsontools']
-        self.externals = [f.strip(".py") for f in os.listdir("lite\external_modules") if os.path.isfile(os.path.join("lite\external_modules", f))]
+        self.externals = [f.strip(".py") for f in os.listdir(r"lite\external_modules") if os.path.isfile(os.path.join(r"lite\external_modules", f))]
     
     def import_module(self, modules):
         for module in modules:

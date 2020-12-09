@@ -60,6 +60,7 @@ start: expr*
      | "keys" "(" NAME ")"        -> get_dict_keys
      | NAME".""keys"              -> get_dict_keys
      | "get_index" "(" NAME "," expr ")"    -> get_index
+     | "type" "(" expr ")"        -> get_type
 
 
 block: "{" expr+ "}"

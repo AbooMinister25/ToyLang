@@ -129,6 +129,9 @@ class String():
 
     def eval(self, env):
         return self.value
+    
+    def type(self, env=None):
+        return "String"
 
 
 class TripleQuoteString():
@@ -138,6 +141,9 @@ class TripleQuoteString():
     
     def eval(self, env):
         return self.value
+    
+    def type(self, env=None):
+        return "String"
 
 
 class Integer():
@@ -146,6 +152,9 @@ class Integer():
 
     def eval(self, env):
         return self.value
+    
+    def type(self, env=None):
+        return "Integer"
 
 
 class Array():
@@ -157,6 +166,9 @@ class Array():
         for val in self.value:
             value.append(val.eval(env))
         return value
+    
+    def type(self, env=None):
+        return "Array"
 
 
 class AssignVariable():
@@ -181,6 +193,18 @@ class GetVariable():
 
     def __repr__(self):
         return f"GetVariblee({self.name})"
+    
+    def type(self, env):
+        var_type = type(env.get_variable(self.name))
+        if var_type == str:
+            return "String"
+        elif var_type == int:
+            return "Integer"
+        elif var_type == list:
+            return "Array"
+        elif var_type == dict:
+            return "Dict"
+
 
 
 class GetIndexValue():
@@ -334,6 +358,9 @@ class TrueBool():
 
     def eval(self, env):
         return self.value
+    
+    def type(self, env=None):
+        return "true"
 
 
 class FalseBool():
@@ -342,6 +369,9 @@ class FalseBool():
 
     def eval(self, env):
         return self.value
+    
+    def type(self, env=None):
+        return "false"
 
 
 class While():
@@ -538,6 +568,7 @@ class LoopExpr():
     
     def eval(self, env):
         return [self.value, self.expr.eval(env)]
+    
 
 class For():
     def __init__(self, condition, eval_expr):
@@ -601,6 +632,9 @@ class Dict():
     
     def eval(self, env):
         return dict({self.key.eval(env): self.value.eval(env)})
+    
+    def type(self, env=None):
+        return "dict"
 
 
 class GetDictKeys():
@@ -618,3 +652,11 @@ class GetIndex():
     
     def eval(self, env):
         return env.get_index(self.name, self.value.eval(env))
+
+
+class GetType():
+    def __init__(self, value):
+        self.value = value
+    
+    def eval(self, env):
+        return self.value.type(env)
