@@ -29,6 +29,8 @@ class Env():
 
     def call_function(self, name, args):
         try:
+            if self.functions[name]["args"] == None:
+                return self.functions[name]["eval"].eval(self)
             len_args = len(self.functions[name]["args"].eval(self))
             if args is None:
                 pass
