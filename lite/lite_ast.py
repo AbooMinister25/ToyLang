@@ -50,7 +50,13 @@ class Env():
             raise Exception(f"Function {name} not found")
 
     def get_array_index(self, name, index):
-        return self.variables[name][int(index)]
+        return self.variables[name][index]
+    
+    def get_dict_keys(self, name):
+        return [key for key in self.variables[name].keys()]
+    
+    def get_index(self, name, value):
+        return self.variables[name].index(value)
 
 
 environment = Env()
@@ -177,13 +183,13 @@ class GetVariable():
         return f"GetVariblee({self.name})"
 
 
-class GetArrayIndex():
-    def __init__(self, name, index):
+class GetIndexValue():
+    def __init__(self, name, value):
         self.name = name
-        self.index = index
+        self.value = value
 
     def eval(self, env):
-        return env.get_array_index(self.name, self.index)
+        return env.get_array_index(self.name, self.value.eval(env))
 
 
 class Block():
@@ -586,3 +592,29 @@ class IncludeEvaluator():
     
     def eval(self, env):
         return self.evaluator.Evaluator(self.data.eval(env))
+
+
+class Dict():
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+    
+    def eval(self, env):
+        return dict({self.key.eval(env): self.value.eval(env)})
+
+
+class GetDictKeys():
+    def __init__(self, name):
+        self.name = name
+    
+    def eval(self, env):
+        return env.get_dict_keys(self.name)
+
+
+class GetIndex():
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+    
+    def eval(self, env):
+        return env.get_index(self.name, self.value.eval(env))

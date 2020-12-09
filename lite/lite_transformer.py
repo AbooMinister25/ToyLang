@@ -24,6 +24,9 @@ class LiteTransformer(Transformer):
 
     def array(self, *value):
         return Array(value)
+    
+    def dictionary(self, key, value):
+        return Dict(key, value)
 
     def add(self, val1, val2):
         return Add(val1, val2)
@@ -88,8 +91,14 @@ class LiteTransformer(Transformer):
     def get_var(self, name):
         return GetVariable(name)
     
-    def array_index(self, name, index):
-        return GetArrayIndex(name, index)
+    def get_index_value(self, name, index):
+        return GetIndexValue(name, index)
+    
+    def get_dict_keys(self, name):
+        return GetDictKeys(name)
+    
+    def get_index(self, name, value):
+        return GetIndex(name, value)
     
     def mean(self, value):
         return Mean(value)
