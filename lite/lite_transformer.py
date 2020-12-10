@@ -84,6 +84,9 @@ class LiteTransformer(Transformer):
 
     def var_input_statement(self, name, value):
         return AssignVariable(name, value=Input(value))
+    
+    def var_function_statement(self, name, function):
+        return AssignVariable(name, function, "function")
 
     def assign_var(self, name, value):
         return AssignVariable(name, value)
@@ -184,6 +187,9 @@ class LiteTransformer(Transformer):
     
     def loopexpr(self, value, expr):
         return LoopExpr(value, expr)
+    
+    def return_statement(self, *return_value):
+        return Return(return_value)
 
     def COMMENT(self):
         pass

@@ -31,6 +31,8 @@ class Env():
     def call_function(self, name, args):
         try:
             if self.functions[name]["args"] == None:
+                if args != None:
+                    raise TypeError("Invalid Arguments Given")
                 return self.functions[name]["eval"].eval(self)
             len_args = len(self.functions[name]["args"].eval(self))
             if args is None:
@@ -175,11 +177,14 @@ class Array():
 
 
 class AssignVariable():
-    def __init__(self, name, value):
+    def __init__(self, name, value, type=None):
         self.name = name
         self.value = value
+        self.type = type
 
     def eval(self, env):
+        if self.type == "function":
+            return env.assign_variable(self.name, env.call_function(self.value, None))
         env.assign_variable(self.name, self.value.eval(env))
 
     def __repr__(self):
@@ -430,6 +435,8 @@ class FuncBlock():
 
     def eval(self, env):
         for expr in self.exprs:
+            if type(expr) == Return:
+                return expr.eval(self.local)
             expr.eval(self.local)
 
 
@@ -676,3 +683,16 @@ class GetType():
     
     def eval(self, env):
         return self.value.type(env)
+
+
+class Return():
+    def __init__(self, value):
+        self.values = value
+    
+    def eval(self, env):
+        eval_values = []
+        if len(self.values) == 1:
+            return self.values[0].eval(env)
+        for value in self.values:
+            eval_values.append(value.eval(env))
+        return eval_values

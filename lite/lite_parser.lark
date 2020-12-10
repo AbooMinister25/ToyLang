@@ -5,9 +5,11 @@ start: expr*
       | loopexpr*
 
 ?statement: "print" "(" expr ")" SEMICOLON  -> print_statement
+          | "print" "(" statement ")" SEMICOLON -> print_statement
           | "input" "(" expr ")" ";"  -> input_statement
           | NAME "=" expr ";"      -> assign_var
           | NAME "=" "input" "(" expr ")" ";" -> var_input_statement
+          | NAME "=" NAME "(" ")" ";"         -> var_function_statement
           | "if" expr "==" expr  block  -> if_statement
           | "if" expr "==" expr block "else" block -> if_else_statement
           | "if" expr "==" expr "or" expr "==" expr block -> or_if_statement
@@ -26,6 +28,8 @@ start: expr*
           | NAME"."NAME "(" expr ("," expr)* ")" ";"           -> module_argument_function
           | "include" "(" NAME ("," NAME)* ")" ";"        -> include_statement
           | NAME".""Evaluator" "(" expr ("," expr)* ")" ";"    -> include_evaluator
+          | "return" "(" expr+ ")" ";"                    -> return_statement
+          | "return" "(" statement+ ")" ";"               -> return_statement
 
 
 ?expr: STRING            -> string
@@ -61,11 +65,12 @@ start: expr*
      | NAME".""keys"              -> get_dict_keys
      | "get_index" "(" NAME "," expr ")"    -> get_index
      | "type" "(" expr ")"        -> get_type
+     | NAME "(" ")"               -> no_argument_call_function
+     | NAME "(" expr ("," expr)* ")"    -> argument_call_function
 
 
 block: "{" expr+ "}"
      | "{" statement+ "}"
-
 
 args: "(" [NAME ("," NAME)*] ")"
 
