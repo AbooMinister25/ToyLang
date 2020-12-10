@@ -570,7 +570,16 @@ class LoopExpr():
     
     def eval(self, env):
         return [self.value, self.expr.eval(env)]
-    
+
+
+class ForBlock():
+    def __init__(self, temp_var, exprs):
+        self.exprs = exprs
+        self.temp_var = temp_var
+
+    def eval(self, env):
+        for expr in self.exprs:
+            expr.eval(env)
 
 class For():
     def __init__(self, condition, eval_expr):
@@ -578,8 +587,13 @@ class For():
         self.eval_expr = eval_expr
     
     def eval(self, env):
-        for self.condition.eval(env)[0] in self.condition.eval(env)[1]:
+        pre_vars = env.variables
+        print(pre_vars)
+        for i in self.condition.eval(env)[1]:
+            env.assign_variable(self.condition.eval(env)[0], i)
             self.eval_expr.eval(env)
+        env.variables.clear()
+        print(pre_vars)
 
 
 class Range():
