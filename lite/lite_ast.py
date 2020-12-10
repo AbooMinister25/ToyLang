@@ -696,3 +696,13 @@ class Return():
         for value in self.values:
             eval_values.append(value.eval(env))
         return eval_values
+
+
+class DefineDictValue():
+    def __init__(self, name, key, value):
+        self.name = name
+        self.value = value
+        self.key = key
+    
+    def eval(self, env):
+        env.variables[self.name][self.key.eval(env)] = self.value.eval(env)

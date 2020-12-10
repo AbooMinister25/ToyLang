@@ -100,6 +100,9 @@ class LiteTransformer(Transformer):
     def get_dict_keys(self, name):
         return GetDictKeys(name)
     
+    def assign_dict_value(self, name, key, value):
+        return DefineDictValue(name, key, value)
+    
     def get_index(self, name, value):
         return GetIndex(name, value)
     
