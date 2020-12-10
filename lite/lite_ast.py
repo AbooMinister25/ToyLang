@@ -4,6 +4,7 @@ import os
 import math
 import sys
 import time
+import copy
 
 class Env():
     def __init__(self):
@@ -587,13 +588,12 @@ class For():
         self.eval_expr = eval_expr
     
     def eval(self, env):
-        pre_vars = env.variables
-        print(pre_vars)
+        pre_vars = copy.deepcopy(env.variables)
         for i in self.condition.eval(env)[1]:
             env.assign_variable(self.condition.eval(env)[0], i)
             self.eval_expr.eval(env)
         env.variables.clear()
-        print(pre_vars)
+        env.variables = pre_vars
 
 
 class Range():
