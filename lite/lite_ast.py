@@ -425,7 +425,7 @@ class FuncBlock():
             def get_array_index(self, name, index):
                 return self.variables[name][int(index)]
         
-        self.local = Local()
+        self.local = Env()
 
     def eval(self, env):
         for expr in self.exprs:
