@@ -28,6 +28,32 @@ def install(filename):
         print(f"The command raised the following exception: {e}")
 
 
+@ice_cli.command()
+@click.argument('filename')
+def installfromfile(filename):
+    try:
+        modules = open(f"{filename}.txt", "r").readlines()
+        for module in modules:
+            r = requests.get(fr"https://rcyclegar.pythonanywhere.com/get-module/{module}.py")
+            open(f"lite\external_modules\{module}.py", "w").write(r.text)
+        print("Modules successfully installed")
+    except FileNotFoundError:
+        print(f"No file named {filename}")
+    except Exception as e:
+        print(f"The command raised the following exception: {e}")
+
+
+@ice_cli.command()
+@click.argument('filename')
+def delete(filename):
+    try:
+        os.remove(f"lite\external_modules\{filename}.py")
+    except FileNotFoundError:
+        print(f"No module name {filename}")
+    except Exception as e:
+        print(f"The command raised the following exception: {e}")
+
+
 
 if __name__ == '__main__':
     ice_cli(prog_name="ice")
