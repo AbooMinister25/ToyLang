@@ -107,6 +107,27 @@ for i in range(5) {
 print(hash("Hello"));
 >>> -3365352440980255850
 ```
+> `keys`
+* Used for getting all of the keys in a dict
+* Keys are stored in an array
+* Example:
+```
+dict = {"HI": 1, "Bye": 1};
+print(keys(dict));
+>>> ["HI", "Bye"]
+```
+> `type`
+* Used for getting the data type of an object
+* Can be used on variables or plain data types as well.
+* Example:
+```
+x = "Hi"
+y = 5
+print(type(x));
+print(type(y));
+>>> String
+>>> Integer
+```
 
 ## Control Flow
 
@@ -155,6 +176,18 @@ function hello() {
 hello();
 >>> Hello!
 ```
+> `return`
+* Used for returning values from functions
+* Can be used to assign the return value of a function to a variable.
+* Example:
+```
+function my_function() {
+    return("Function!");
+}
+x = my_function();
+print(x);
+>>> Function!
+
 > `while`
 * Used to declare a while loop.
 * Loops over a block of code as long as the given condition is true.
@@ -197,6 +230,14 @@ for i in arr {
 >>> Hi
 >>> Hi
 >>> Hi
+// With iteration
+arr = [1,2,3];
+for i in arr {
+    print(i);
+}
+>>> 1
+>>> 2
+>>> 3
 ```
 
 ## Data Types
@@ -216,6 +257,16 @@ arr = [1,2,3];
 print(arr);
 >>> [1,2,3]
 ```
+> `Dict`
+* A JSON like key/value object
+* Values can be accessed by keys
+* Example:
+```
+dict = {"Hi": 1, "Bye": 2}
+print(dict["Hi"])
+>>> 1
+```
+
 > `true`
 * A boolean data type, returns True
 > `false`

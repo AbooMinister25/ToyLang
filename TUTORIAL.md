@@ -66,7 +66,7 @@ I entered the number `25`, which was then printed out into the console by `print
 
 ## Data Types
 
-Lite makes use of 4 main data types, Strings, Integers, Arrays, and Booleans. A string is a string of characters that can be defined like below.
+Lite makes use of 5 main data types, Strings, Integers, Arrays, Dicts, and Booleans. A string is a string of characters that can be defined like below.
 ```
 x = "Hello";
 ```
@@ -98,6 +98,17 @@ print(x[0]);
 >>> 1
 ```
 Array indexing starts at `0`, and goes up from there, so `x[0]` would return `1`. Arrays can be looped over, which will be more focused on in the Loops section of this tutorial.
+Now lets talk about `dicts`. Dicts, short for dictionaries, are objects that store key/value pairs in JSON like formats. Such as the following.
+```
+dict = {"HI": 1, "Bye": 2};
+```
+In this example, the key `Hi` has a corresponding value of the integer `1`. Keys can only be integers, but values can be any other data type, including other dicts.To access the data from a key, you can do the following.
+```
+dict = {"HI": 1, "Bye": 2};
+print(dict["Hi"]);
+>>> 1
+```
+The above called the key `Hi`, and returned its corresponding value, `1`. Next we'll talk about Booleans.
 
 Booleans consist of two values, `true` or `false`. Booleans can be stored in variables, or used in while loops, which will be showcased in the Loops section of this tutorial.
 
