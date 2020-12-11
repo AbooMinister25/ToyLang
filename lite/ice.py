@@ -54,6 +54,18 @@ def delete(filename):
         print(f"The command raised the following exception: {e}")
 
 
+@ice_cli.command()
+@click.option("-i", "--installed", help="Option to list only installed modules", is_flag=True)
+def list(installed):
+    if installed:
+        for filename in [f.strip(".py") for f in os.listdir(r"lite\external_modules") if os.path.isfile(os.path.join(r"lite\external_modules", f))]:
+            print(filename)
+    else:
+        r = requests.get(fr"https://rcyclegar.pythonanywhere.com/list")
+        for module in r.json()["modules"]:
+            print(module)
+
+
 
 if __name__ == '__main__':
     ice_cli(prog_name="ice")
